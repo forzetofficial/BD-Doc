@@ -1,0 +1,377 @@
+.login-page {
+  position: relative;
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+/* Gradient mesh background */
+.bg-mesh {
+  position: absolute;
+  inset: -20% -20% -20% -20%;
+  background: radial-gradient(
+      1200px 600px at 10% 10%,
+      color-mix(in oklab, var(--violet) 70%, transparent),
+      transparent 60%
+    ),
+    radial-gradient(
+      900px 600px at 90% 10%,
+      color-mix(in oklab, var(--blue) 65%, transparent),
+      transparent 60%
+    ),
+    radial-gradient(
+      900px 700px at 20% 90%,
+      color-mix(in oklab, var(--green) 65%, transparent),
+      transparent 60%
+    ),
+    radial-gradient(
+      900px 700px at 80% 85%,
+      color-mix(in oklab, var(--yellow) 70%, transparent),
+      transparent 60%
+    );
+  opacity: 0.45;
+  filter: blur(50px) saturate(130%);
+  animation: meshDrift 35s ease-in-out infinite;
+  transform: translateZ(0);
+}
+
+@keyframes meshDrift {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  25% {
+    transform: translate3d(-2%, 1%, 0) scale(1.02);
+  }
+  50% {
+    transform: translate3d(1%, -2%, 0) scale(1.03);
+  }
+  75% {
+    transform: translate3d(2%, 1%, 0) scale(1.01);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+/* Animated gradient orbs using the palette */
+.orb {
+  position: absolute;
+  filter: blur(60px);
+  opacity: 0.45;
+  mix-blend-mode: screen;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.orb.violet {
+  background: radial-gradient(
+    600px 600px at center,
+    var(--violet),
+    transparent 70%
+  );
+}
+.orb.blue {
+  background: radial-gradient(
+    500px 500px at center,
+    var(--blue),
+    transparent 70%
+  );
+}
+.orb.green {
+  background: radial-gradient(
+    520px 520px at center,
+    var(--green),
+    transparent 70%
+  );
+}
+.orb.yellow {
+  background: radial-gradient(
+    640px 640px at center,
+    var(--yellow),
+    transparent 70%
+  );
+}
+
+@keyframes floatY {
+  0%,
+  100% {
+    transform: translate(-50%, -52%);
+  }
+  50% {
+    transform: translate(-50%, -48%);
+  }
+}
+
+@keyframes floatX {
+  0%,
+  100% {
+    left: 58%;
+  }
+  50% {
+    left: 42%;
+  }
+}
+
+.orb.one {
+  top: 25%;
+  left: 30%;
+  animation: floatY 12s ease-in-out infinite;
+}
+.orb.two {
+  top: 70%;
+  left: 70%;
+  animation: floatX 16s ease-in-out infinite;
+}
+.orb.three {
+  top: 85%;
+  left: 20%;
+  animation: floatY 14s ease-in-out infinite reverse;
+}
+.orb.four {
+  top: 15%;
+  left: 80%;
+  animation: floatX 18s ease-in-out infinite reverse;
+}
+
+/* Floating particles layer */
+.particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.particles span {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: white;
+  opacity: 0.15;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.6);
+  animation: rise 12s linear infinite;
+}
+
+/* vary positions and colors */
+.particles span:nth-child(3n) {
+  background: var(--blue);
+  opacity: 0.22;
+}
+.particles span:nth-child(4n) {
+  background: var(--violet);
+  opacity: 0.22;
+}
+.particles span:nth-child(5n) {
+  background: var(--green);
+  opacity: 0.22;
+}
+.particles span:nth-child(6n) {
+  background: var(--yellow);
+  opacity: 0.22;
+}
+
+.particles span:nth-child(1) {
+  left: 10%;
+  width: 4px;
+  height: 4px;
+  animation-duration: 10s;
+}
+.particles span:nth-child(2) {
+  left: 25%;
+  width: 5px;
+  height: 5px;
+  animation-duration: 12s;
+}
+.particles span:nth-child(3) {
+  left: 40%;
+  width: 7px;
+  height: 7px;
+  animation-duration: 14s;
+}
+.particles span:nth-child(4) {
+  left: 55%;
+  width: 6px;
+  height: 6px;
+  animation-duration: 11s;
+}
+.particles span:nth-child(5) {
+  left: 70%;
+  width: 4px;
+  height: 4px;
+  animation-duration: 9s;
+}
+.particles span:nth-child(6) {
+  left: 85%;
+  width: 5px;
+  height: 5px;
+  animation-duration: 13s;
+}
+.particles span:nth-child(7) {
+  left: 15%;
+  width: 6px;
+  height: 6px;
+  animation-duration: 12s;
+}
+.particles span:nth-child(8) {
+  left: 33%;
+  width: 4px;
+  height: 4px;
+  animation-duration: 10s;
+}
+.particles span:nth-child(9) {
+  left: 48%;
+  width: 6px;
+  height: 6px;
+  animation-duration: 12s;
+}
+.particles span:nth-child(10) {
+  left: 64%;
+  width: 7px;
+  height: 7px;
+  animation-duration: 15s;
+}
+.particles span:nth-child(11) {
+  left: 78%;
+  width: 5px;
+  height: 5px;
+  animation-duration: 11s;
+}
+.particles span:nth-child(12) {
+  left: 92%;
+  width: 4px;
+  height: 4px;
+  animation-duration: 10s;
+}
+
+@keyframes rise {
+  0% {
+    transform: translate(-50%, 0) scale(0.8);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.7;
+  }
+  90% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translate(-50%, -110vh) scale(1.1);
+    opacity: 0;
+  }
+}
+
+.card {
+  width: min(92vw, 420px);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px 22px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.45);
+  backdrop-filter: saturate(150%) blur(14px);
+  transform: translateY(8px);
+  animation: riseIn 550ms cubic-bezier(0.2, 0.8, 0.2, 1) 100ms both;
+}
+
+@keyframes riseIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.title {
+  font-size: clamp(26px, 4vw, 32px);
+  font-weight: 800;
+  text-align: center;
+  margin: 2px 0 18px;
+  letter-spacing: 0.3px;
+  background: linear-gradient(
+    90deg,
+    var(--violet),
+    var(--blue),
+    var(--green),
+    var(--yellow)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.form {
+  display: grid;
+  gap: 14px;
+}
+
+.label {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text);
+  outline: none;
+  transition: border-color 160ms ease, background 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.input:focus {
+  border-color: color-mix(in oklab, var(--blue) 65%, white);
+  background: rgba(255, 255, 255, 0.06);
+  box-shadow: 0 0 0 4px rgba(54, 162, 235, 0.15);
+}
+
+.submit {
+  margin-top: 6px;
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 0;
+  color: #0b1220;
+  font-weight: 700;
+  background: linear-gradient(
+    135deg,
+    var(--violet),
+    var(--blue),
+    var(--green),
+    var(--yellow)
+  );
+  background-size: 200% 200%;
+  animation: bgShift 10s ease infinite;
+  transition: transform 120ms ease, filter 120ms ease;
+}
+
+.submit:hover {
+  filter: brightness(1.05);
+}
+.submit:active {
+  transform: translateY(1px);
+}
+
+.hint {
+  margin-top: 12px;
+  font-size: 12px;
+  color: var(--muted);
+  text-align: center;
+}
+
+.link {
+  color: var(--yellow);
+  text-decoration: none;
+}
+
+@media (min-width: 768px) {
+  .card {
+    padding: 32px 26px;
+  }
+}

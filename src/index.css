@@ -1,0 +1,60 @@
+:root {
+  --violet: #8a2be2; /* сиреневый */
+  --blue: #36a2eb; /* голубой */
+  --green: #34d399; /* зелёный */
+  --yellow: #facc15; /* жёлтый */
+  --bg-1: #0e0e10;
+  --bg-2: #15151a;
+  --text: #f7f7f8;
+  --muted: #c9c9cf;
+  --border: rgba(255, 255, 255, 0.12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+html {
+  /* fallback bg to avoid white at extremes */
+  background-color: var(--bg-2);
+}
+
+body {
+  margin: 0;
+  color: var(--text);
+  background: linear-gradient(120deg, var(--bg-1), var(--bg-2));
+  background-size: 200% 200%;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
+    Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  animation: bgShift 18s ease-in-out infinite;
+  min-height: 100dvh;
+  overflow-x: hidden;
+}
+
+@keyframes bgShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Smooth form element defaults */
+input,
+button {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
