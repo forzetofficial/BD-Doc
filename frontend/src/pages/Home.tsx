@@ -1,11 +1,15 @@
 import styles from "./Home.module.css";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import LoadingScreen from "../components/LoadingScreen";
+import AppBackground from "../components/AppBackground";
+import Cookies from "js-cookie";
 
 export default function Home() {
   const navigate = useNavigate();
   const [globalQuery, setGlobalQuery] = useState("");
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const [searchType, setSearchType] = useState<"diploma" | "coursework">("diploma");
   const [criteria, setCriteria] = useState({
     group: "",
@@ -17,6 +21,20 @@ export default function Home() {
     reviewer: "",
     discipline: "",
   });
+
+  useEffect(() => {
+    const hasJustLoggedIn = sessionStorage.getItem('justLoggedIn') === 'true';
+    
+    if (hasJustLoggedIn) {
+      sessionStorage.removeItem('justLoggedIn');
+    } else {
+      setIsLoading(false);
+    }
+  }, []);
+
+  const handleLoadingComplete = () => {
+    setIsLoading(false);
+  };
 
   function handleLogout() {
     navigate("/login", { replace: true });
@@ -53,15 +71,15 @@ export default function Home() {
     });
   }
 
+  if (isLoading) {
+    return <LoadingScreen onComplete={handleLoadingComplete} />;
+  }
+
+  const username = Cookies.get("username") || "Ваше имя";
+
   return (
-    <div className={`${styles["home-page"]} ${!isSidebarOpen ? styles.collapsed : ""}`}>
-      <div className={styles["bg-mesh"]} aria-hidden="true" />
-      <div className={styles["blur-blobs"]} aria-hidden>
-        <span className={`${styles.blob} ${styles["blob-violet"]}`} />
-        <span className={`${styles.blob} ${styles["blob-pink"]}`} />
-        <span className={`${styles.blob} ${styles["blob-yellow"]}`} />
-      </div>
-      {/* decorative orbs removed per design */}
+    <div className={`${styles["home-page"]} ${!isSidebarOpen ? styles.collapsed : ""} ${styles.fadeInHome}`}>
+      <AppBackground />
 
       <button
         className={styles["home-toggle"]}
@@ -79,7 +97,7 @@ export default function Home() {
           <div className={styles["home-avatar"]} aria-hidden>
             BD
           </div>
-          <div className={styles["home-username"]}>Ваше имя</div>
+          <div className={styles["home-username"]}>{username}</div>
         </div>
 
         <button className={styles["home-settings-btn"]} type="button">⚙ Настройки</button>
