@@ -1,0 +1,62 @@
+services:
+  postgres:
+    container_name: postgres
+    image: postgres
+    restart: always
+    volumes:
+      - ./ofs-pg:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: 'user'
+      POSTGRES_PASSWORD: 'pass'
+      POSTGRES_DB: 'postgres'
+    ports:
+      - 5432:5432
+
+  api-gatewate:
+    build: /backend/ApiGatewateForOrbitOfSuccess
+    container_name: api-gatewate
+    image: api-gatewate
+    restart: always
+    environment:
+      GIN_MODE: release
+      AUTH_ADDRESS: 'localhost:5000'
+      USER_ADDRESS: 'localhost:5001'
+      COURSE_ADDRESS: 'localhost:5002'
+    ports:
+      - 8080:8080
+    network_mode: host
+    depends_on:
+      - prometheus
+
+  auth-microservice:
+    build: /backend/AuthMicroservice
+    container_name: auth-microservice
+    image: auth-microservice
+    restart: always
+    environment:
+      PG_URL: 'postgres://user:pass@localhost:5432/postgres'
+      USER_ADDRESS: 'localhost:5001'
+    ports:
+      - 5000:5000
+    network_mode: host
+  
+  user-microservice:
+    build: /backend/UserMicroserviceForOrbitOfSuccess
+    container_name: user-microservice
+    image: user-microservice
+    restart: always
+    environment:
+      PG_URL: 'postgres://user:pass@postgres:5432/postgres'
+    ports:
+      - 5001:5001
+    depends_on:
+      - auth-microservice
+  
+  frontend:
+    build: /frontend
+    container_name: frontend
+    restart: always
+    ports:
+      - 5173:5173
+    depends_on:
+      - user-microservice
