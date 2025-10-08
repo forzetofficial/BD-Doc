@@ -1,4 +1,5 @@
 import { InputHTMLAttributes } from "react";
+import styles from "./TextField.module.css";
 
 type TextFieldProps = {
   label: string;
@@ -7,8 +8,8 @@ type TextFieldProps = {
 export default function TextField({ label, ...props }: TextFieldProps) {
   return (
     <div>
-      <div className="label">{label}</div>
-      <input className="input" {...props} />
+      <div className={styles.label}>{label}</div>
+      <input className={styles.input} {...props} />
     </div>
   );
 }

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import AuthLayout from "../components/AuthLayout";
 import TextField from "../components/TextField";
+import styles from "./AuthForm.module.css";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -13,7 +14,7 @@ export default function Login() {
 
   return (
     <AuthLayout title="BD Doc">
-      <form className="form" onSubmit={handleSubmit}>
+      <form className={styles.form} onSubmit={handleSubmit}>
         <TextField
           label="Email"
           type="email"
@@ -36,12 +37,12 @@ export default function Login() {
           minLength={6}
         />
 
-        <button className="submit" type="submit">
+        <button className={styles.submit} type="submit">
           Войти
         </button>
-        <div className="hint">
+        <div className={styles.hint}>
           Нет аккаунта?{" "}
-          <Link className="link" to="/registration">
+          <Link className={styles.link} to="/registration">
             Зарегистрироваться
           </Link>
         </div>

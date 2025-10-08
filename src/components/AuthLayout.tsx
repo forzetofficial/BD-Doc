@@ -1,4 +1,4 @@
-import "../App.css";
+import styles from "./AuthLayout.module.css";
 import { ReactNode } from "react";
 
 type AuthLayoutProps = {
@@ -8,13 +8,13 @@ type AuthLayoutProps = {
 
 export default function AuthLayout({ title, children }: AuthLayoutProps) {
   return (
-    <div className="login-page">
-      <div className="bg-mesh" aria-hidden="true" />
-      <div className="orb violet one" />
-      <div className="orb blue two" />
-      <div className="orb green three" />
-      <div className="orb yellow four" />
-      <div className="particles" aria-hidden="true">
+    <div className={styles["login-page"]}>
+      <div className={styles["bg-mesh"]} aria-hidden="true" />
+      <div className={`${styles.orb} ${styles.violet} ${styles.one}`} />
+      <div className={`${styles.orb} ${styles.blue} ${styles.two}`} />
+      <div className={`${styles.orb} ${styles.green} ${styles.three}`} />
+      <div className={`${styles.orb} ${styles.yellow} ${styles.four}`} />
+      <div className={styles.particles} aria-hidden="true">
         <span />
         <span />
         <span />
@@ -29,8 +29,8 @@ export default function AuthLayout({ title, children }: AuthLayoutProps) {
         <span />
       </div>
 
-      <div className="card">
-        <div className="title">{title}</div>
+      <div className={styles.card}>
+        <div className={styles.title}>{title}</div>
         {children}
       </div>
     </div>
