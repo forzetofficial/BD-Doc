@@ -6,11 +6,8 @@ import (
 	"net/http"
 
 	_ "github.com/Homyakadze14/ApiGatewateForOrbitOfSuccess/docs"
-	"github.com/Homyakadze14/ApiGatewateForOrbitOfSuccess/internal/lib/s3"
 
 	authv1 "github.com/Homyakadze14/ApiGatewateForOrbitOfSuccess/proto/gen/auth"
-	coursev1 "github.com/Homyakadze14/ApiGatewateForOrbitOfSuccess/proto/gen/course"
-	userv1 "github.com/Homyakadze14/ApiGatewateForOrbitOfSuccess/proto/gen/user"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
@@ -19,9 +16,7 @@ import (
 )
 
 type Clients struct {
-	Auth   authv1.AuthClient
-	User   userv1.UserClient
-	Course coursev1.CourseServiceClient
+	Auth authv1.AuthClient
 }
 
 // Swagger spec:
@@ -34,7 +29,7 @@ type Clients struct {
 // @securityDefinitions.apikey ApiKeyAuth
 // @in header
 // @name Authorization
-func NewRouter(handler *gin.Engine, c Clients, log *slog.Logger, s3 *s3.S3Storage) {
+func NewRouter(handler *gin.Engine, c Clients, log *slog.Logger) {
 	// Options
 	handler.Use(gin.Logger())
 	handler.Use(gin.Recovery())
@@ -60,8 +55,5 @@ func NewRouter(handler *gin.Engine, c Clients, log *slog.Logger, s3 *s3.S3Storag
 	g := handler.Group("/api/v1")
 	{
 		NewAuthRoutes(log, g, c.Auth)
-		NewUserRoutes(log, g, c.User, c.Auth)
-		NewMediaRoutes(log, g, s3)
-		NewCourseRoutes(log, g, c.Course)
 	}
 }
