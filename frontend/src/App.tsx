@@ -12,7 +12,7 @@ function App() {
         <Route path="/" element={<Navigate to="/auth/login" replace />} />
         <Route path="/auth/login" element={<Login />} />
         <Route path="/auth/register" element={<Registration />} />
-        <Route path="/auth/activate_account" element={<ActivateAccount />} />
+        <Route path="/activate/:url" element={<ActivateAccount />} />
         <Route path="/home" element={<Home />} />
         <Route path="*" element={<Navigate to="/auth/login" replace />} />
       </Routes>
