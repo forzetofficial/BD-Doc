@@ -10,7 +10,15 @@ export default function ActivateAccount() {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    const link = searchParams.get("link");
+    let link = searchParams.get("link");
+    if (!link) {
+      // Попытаться извлечь ссылку из pathname
+      const path = window.location.pathname;
+      const match = path.match(/\/auth\/activate_account\/(.+)$/);
+      if (match && match[1]) {
+        link = match[1];
+      }
+    }
     if (!link) {
       setStatus("error");
       setMessage("Некорректная ссылка активации.");
