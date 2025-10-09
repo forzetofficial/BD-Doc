@@ -45,7 +45,7 @@ export default function Registration() {
     setIsLoading(true);
 
     try {
-      const response = await fetch("/auth/register", {
+      const response = await fetch("http://158.160.159.90:8080/api/v1/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -16,7 +16,7 @@ export default function ActivateAccount() {
       setMessage("Некорректная ссылка активации.");
       return;
     }
-    fetch("/auth/activate_account", {
+    fetch("http://158.160.159.90:8080/api/v1/auth/activate_account", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ link }),
