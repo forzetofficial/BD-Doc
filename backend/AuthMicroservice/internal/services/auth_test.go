@@ -13,7 +13,6 @@ import (
 	"github.com/Homyakadze14/AuthMicroservice/internal/entities"
 	"github.com/Homyakadze14/AuthMicroservice/internal/lib/jwt"
 	"github.com/Homyakadze14/AuthMicroservice/internal/services/mocks"
-	userv1 "github.com/Homyakadze14/AuthMicroservice/proto/gen/user"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"golang.org/x/crypto/bcrypt"
@@ -28,7 +27,6 @@ type cfg struct {
 	jwtRef      *config.JWTRefreshConfig
 	mailer      *mocks.Mailer
 	pwdLinkRepo *mocks.PwdLinkRepo
-	userService *mocks.UserServiceI
 }
 
 func NewService(cfg cfg) *AuthService {
@@ -74,12 +72,8 @@ func NewService(cfg cfg) *AuthService {
 	if mailer == nil {
 		mailer = &mocks.Mailer{}
 	}
-	userService := cfg.userService
-	if userService == nil {
-		userService = &mocks.UserServiceI{}
-	}
 
-	return NewAuthService(log, accRepo, tokenRepo, linkRepo, jwtAcc, jwtRef, mailer, pwdLinkRepo, userService)
+	return NewAuthService(log, accRepo, tokenRepo, linkRepo, jwtAcc, jwtRef, mailer, pwdLinkRepo)
 }
 
 func TestRegister(t *testing.T) {
@@ -138,13 +132,8 @@ func TestRegisterLinkError(t *testing.T) {
 	linkRepo := &mocks.LinkRepo{}
 	linkRepo.On("Create", ctx, mock.AnythingOfType("*entities.Link")).Return(err).Once()
 
-	userService := &mocks.UserServiceI{}
-	userService.On("CreateDefault", ctx,
-		&userv1.CreateDefaultRequest{UserId: 0}).Return(&userv1.CreateDefaultResponse{}, nil).Once()
-
 	sCfg := cfg{
-		linkRepo:    linkRepo,
-		userService: userService,
+		linkRepo: linkRepo,
 	}
 
 	service := NewService(sCfg)
@@ -443,13 +432,8 @@ func TestActivateAccount(t *testing.T) {
 	linkRepo.On("Get", ctx, link).Return(bdLink, nil).Once()
 	linkRepo.On("Update", ctx, bdLink.ID, bdLink).Return(nil).Once()
 
-	userService := &mocks.UserServiceI{}
-	userService.On("CreateDefault", ctx,
-		&userv1.CreateDefaultRequest{UserId: int64(bdLink.UserID)}).Return(&userv1.CreateDefaultResponse{}, nil).Once()
-
 	sCfg := cfg{
-		linkRepo:    linkRepo,
-		userService: userService,
+		linkRepo: linkRepo,
 	}
 
 	service := NewService(sCfg)
@@ -494,44 +478,8 @@ func TestActivateAccountUpdateErr(t *testing.T) {
 	linkRepo.On("Get", ctx, link).Return(bdLink, nil).Once()
 	linkRepo.On("Update", ctx, bdLink.ID, bdLink).Return(err).Once()
 
-	userService := &mocks.UserServiceI{}
-	userService.On("CreateDefault", ctx,
-		&userv1.CreateDefaultRequest{UserId: int64(bdLink.UserID)}).Return(&userv1.CreateDefaultResponse{}, nil).Once()
-
 	sCfg := cfg{
-		linkRepo:    linkRepo,
-		userService: userService,
-	}
-
-	service := NewService(sCfg)
-	err = service.ActivateAccount(ctx, link)
-
-	assert.Error(t, err)
-}
-
-func TestActivateCreateUserErr(t *testing.T) {
-	ctx := context.Background()
-
-	link := "testlink"
-	bdLink := &entities.Link{
-		ID:          1,
-		UserID:      1,
-		Link:        link,
-		IsActivated: false,
-	}
-	err := errors.New("test")
-
-	linkRepo := &mocks.LinkRepo{}
-	linkRepo.On("Get", ctx, link).Return(bdLink, nil).Once()
-	linkRepo.On("Update", ctx, bdLink.ID, bdLink).Return(nil).Once()
-
-	userService := &mocks.UserServiceI{}
-	userService.On("CreateDefault", ctx,
-		&userv1.CreateDefaultRequest{UserId: int64(bdLink.UserID)}).Return(&userv1.CreateDefaultResponse{}, err).Once()
-
-	sCfg := cfg{
-		linkRepo:    linkRepo,
-		userService: userService,
+		linkRepo: linkRepo,
 	}
 
 	service := NewService(sCfg)

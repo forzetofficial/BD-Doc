@@ -15,9 +15,8 @@ type Config struct {
 	JWTAccess      JWTAccessConfig  `yaml:"jwt_access"`
 	JWTRefresh     JWTRefreshConfig `yaml:"jwt_refresh"`
 	MigrationsPath string
-	Mailer         MailerConfig      `yaml:"mailer"`
-	BaseLinks      BaseLinksConfig   `yaml:"base_links"`
-	UserServiceCfg UserServiceConfig `yaml:"user_service"`
+	Mailer         MailerConfig    `yaml:"mailer"`
+	BaseLinks      BaseLinksConfig `yaml:"base_links"`
 }
 
 type GRPCConfig struct {
@@ -50,10 +49,6 @@ type MailerConfig struct {
 type BaseLinksConfig struct {
 	ActivationUrl     string `yaml:"activation_url" env-required:"true"`
 	ChangePasswordUrl string `yaml:"change_password_url" env-required:"true"`
-}
-
-type UserServiceConfig struct {
-	Addr string `yaml:"address" env:"USER_ADDRESS" env-required:"true"`
 }
 
 func MustLoad() *Config {

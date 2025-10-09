@@ -11,10 +11,8 @@ import (
 	"github.com/Homyakadze14/AuthMicroservice/internal/config"
 	"github.com/Homyakadze14/AuthMicroservice/internal/entities"
 	"github.com/Homyakadze14/AuthMicroservice/internal/lib/jwt"
-	userv1 "github.com/Homyakadze14/AuthMicroservice/proto/gen/user"
 	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
-	"google.golang.org/grpc"
 )
 
 var (
@@ -70,11 +68,6 @@ type AuthService struct {
 	jwtRef      *config.JWTRefreshConfig
 	mailer      Mailer
 	pwdLinkRepo PwdLinkRepo
-	userService UserServiceI
-}
-
-type UserServiceI interface {
-	CreateDefault(ctx context.Context, in *userv1.CreateDefaultRequest, opts ...grpc.CallOption) (*userv1.CreateDefaultResponse, error)
 }
 
 func NewAuthService(
@@ -86,7 +79,6 @@ func NewAuthService(
 	jwtRef *config.JWTRefreshConfig,
 	mailer Mailer,
 	pwdLinkRepo PwdLinkRepo,
-	userService UserServiceI,
 ) *AuthService {
 	return &AuthService{
 		log:         log,
@@ -97,7 +89,6 @@ func NewAuthService(
 		jwtRef:      jwtRef,
 		mailer:      mailer,
 		pwdLinkRepo: pwdLinkRepo,
-		userService: userService,
 	}
 }
 
@@ -266,12 +257,6 @@ func (s *AuthService) ActivateAccount(ctx context.Context, link string) error {
 
 	log.Info("trying to activate account")
 	bdLink, err := s.linkRepo.Get(ctx, link)
-	if err != nil {
-		log.Error(err.Error())
-		return fmt.Errorf("%s: %w", op, err)
-	}
-
-	_, err = s.userService.CreateDefault(ctx, &userv1.CreateDefaultRequest{UserId: int64(bdLink.UserID)})
 	if err != nil {
 		log.Error(err.Error())
 		return fmt.Errorf("%s: %w", op, err)

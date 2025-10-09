@@ -40,8 +40,7 @@ func Run(
 	mailer := actLinkMailer.New(cfg.BaseLinks, mailer.New(&cfg.Mailer))
 
 	// Services
-	user := services.NewUserService(log, cfg.UserServiceCfg).Connect()
-	auth := services.NewAuthService(log, accRepo, tokenRepo, linkRepo, &cfg.JWTAccess, &cfg.JWTRefresh, mailer, pwdLinkRepo, user)
+	auth := services.NewAuthService(log, accRepo, tokenRepo, linkRepo, &cfg.JWTAccess, &cfg.JWTRefresh, mailer, pwdLinkRepo)
 
 	// GRPC
 	gRPCServer := grpcapp.New(log, auth, cfg.GRPC.Port)
