@@ -16,6 +16,7 @@ import (
 type HttpServer struct {
 	s     *httpserver.Server
 	authS *services.AuthService
+	docsS *services.DocsService
 }
 
 func Run(
@@ -24,10 +25,12 @@ func Run(
 ) *HttpServer {
 	// Services
 	authService := services.NewAuthService(log, cfg.AuthServiceCfg)
+	docsService := services.NewDocsService(log, cfg.DocsServiceCfg)
 
 	// Clients
 	clients := v1.Clients{
 		Auth: authService.Connect(),
+		Docs: docsService.Connect(),
 	}
 
 	// HTTP Server
@@ -40,6 +43,7 @@ func Run(
 	return &HttpServer{
 		s:     httpServer,
 		authS: authService,
+		docsS: docsService,
 	}
 }
 
@@ -52,5 +56,10 @@ func (s *HttpServer) Shutdown() {
 	err = s.authS.CloseConn()
 	if err != nil {
 		slog.Error(fmt.Errorf("app - Run - httpServer.Shutdown - s.authS.CloseConn: %w", err).Error())
+	}
+
+	err = s.docsS.CloseConn()
+	if err != nil {
+		slog.Error(fmt.Errorf("app - Run - httpServer.Shutdown - s.docsS.CloseConn: %w", err).Error())
 	}
 }

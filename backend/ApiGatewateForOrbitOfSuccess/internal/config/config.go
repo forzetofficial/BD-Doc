@@ -11,6 +11,7 @@ type Config struct {
 	Env            string            `yaml:"env" env-default:"local"`
 	HTTP           HTTPConfig        `yaml:"http"`
 	AuthServiceCfg AuthServiceConfig `yaml:"auth_service"`
+	DocsServiceCfg DocsServiceConfig `yaml:"docs_service"`
 	MigrationsPath string
 }
 
@@ -20,6 +21,10 @@ type HTTPConfig struct {
 
 type AuthServiceConfig struct {
 	Addr string `yaml:"address" env:"AUTH_ADDRESS" env-required:"true"`
+}
+
+type DocsServiceConfig struct {
+	Addr string `yaml:"address" env:"DOCS_ADDRESS" env-required:"true"`
 }
 
 func MustLoad() *Config {
