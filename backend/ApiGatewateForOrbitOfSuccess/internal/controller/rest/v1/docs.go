@@ -23,7 +23,7 @@ func NewDocsRoutes(log *slog.Logger, handler *gin.RouterGroup, s docsv1.DocsClie
 
 	g := handler.Group("/docs")
 	{
-		g.POST("/register", r.create)
+		g.POST("/create", r.create)
 		g.POST("/delete", r.delete)
 		g.POST("/filtered", r.getFilterd)
 		g.POST("/search", r.search)
