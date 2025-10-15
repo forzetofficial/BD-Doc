@@ -334,96 +334,6 @@ paths:
       summary: Change password
       tags:
       - Auth
-  /auth/create:
-    post:
-      consumes:
-      - application/json
-      description: Create
-      operationId: Create
-      parameters:
-      - description: create
-        in: body
-        name: create
-        schema:
-          $ref: '#/definitions/entities.CreateRequest'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/entities.SuccessResponse'
-        "400":
-          description: Bad Request
-        "404":
-          description: Not Found
-        "500":
-          description: Internal Server Error
-        "503":
-          description: Service Unavailable
-      summary: Create
-      tags:
-      - Docs
-  /auth/delete:
-    post:
-      consumes:
-      - application/json
-      description: Delete
-      operationId: Delte
-      parameters:
-      - description: delete
-        in: body
-        name: delete
-        schema:
-          $ref: '#/definitions/entities.DeleteRequest'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/entities.SuccessResponse'
-        "400":
-          description: Bad Request
-        "404":
-          description: Not Found
-        "500":
-          description: Internal Server Error
-        "503":
-          description: Service Unavailable
-      summary: Delete
-      tags:
-      - Docs
-  /auth/filtered:
-    post:
-      consumes:
-      - application/json
-      description: Get filtererd
-      operationId: Get filtererd
-      parameters:
-      - description: get filtered
-        in: body
-        name: delete
-        schema:
-          $ref: '#/definitions/entities.GetFilteredRequest'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/entities.GetResponse'
-        "400":
-          description: Bad Request
-        "404":
-          description: Not Found
-        "500":
-          description: Internal Server Error
-        "503":
-          description: Service Unavailable
-      summary: Get filtererd
-      tags:
-      - Docs
   /auth/login:
     post:
       consumes:
@@ -548,36 +458,6 @@ paths:
       summary: Register
       tags:
       - Auth
-  /auth/search:
-    post:
-      consumes:
-      - application/json
-      description: Search
-      operationId: Search
-      parameters:
-      - description: search
-        in: body
-        name: delete
-        schema:
-          $ref: '#/definitions/entities.SearchRequest'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/entities.GetResponse'
-        "400":
-          description: Bad Request
-        "404":
-          description: Not Found
-        "500":
-          description: Internal Server Error
-        "503":
-          description: Service Unavailable
-      summary: Search
-      tags:
-      - Docs
   /auth/send_password_link:
     post:
       consumes:
@@ -610,7 +490,127 @@ paths:
       summary: Send password link
       tags:
       - Auth
-  /auth/update:
+  /docs/create:
+    post:
+      consumes:
+      - application/json
+      description: Create
+      operationId: Create
+      parameters:
+      - description: create
+        in: body
+        name: create
+        schema:
+          $ref: '#/definitions/entities.CreateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entities.SuccessResponse'
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+        "503":
+          description: Service Unavailable
+      summary: Create
+      tags:
+      - Docs
+  /docs/delete:
+    post:
+      consumes:
+      - application/json
+      description: Delete
+      operationId: Delte
+      parameters:
+      - description: delete
+        in: body
+        name: delete
+        schema:
+          $ref: '#/definitions/entities.DeleteRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entities.SuccessResponse'
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+        "503":
+          description: Service Unavailable
+      summary: Delete
+      tags:
+      - Docs
+  /docs/filtered:
+    post:
+      consumes:
+      - application/json
+      description: Get filtererd
+      operationId: Get filtererd
+      parameters:
+      - description: get filtered
+        in: body
+        name: delete
+        schema:
+          $ref: '#/definitions/entities.GetFilteredRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entities.GetResponse'
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+        "503":
+          description: Service Unavailable
+      summary: Get filtererd
+      tags:
+      - Docs
+  /docs/search:
+    post:
+      consumes:
+      - application/json
+      description: Search
+      operationId: Search
+      parameters:
+      - description: search
+        in: body
+        name: delete
+        schema:
+          $ref: '#/definitions/entities.SearchRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entities.GetResponse'
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+        "503":
+          description: Service Unavailable
+      summary: Search
+      tags:
+      - Docs
+  /docs/update:
     post:
       consumes:
       - application/json

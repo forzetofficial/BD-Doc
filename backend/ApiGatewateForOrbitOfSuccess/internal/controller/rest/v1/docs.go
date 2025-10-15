@@ -43,7 +43,7 @@ func NewDocsRoutes(log *slog.Logger, handler *gin.RouterGroup, s docsv1.DocsClie
 // @Failure     404
 // @Failure     500
 // @Failure     503
-// @Router      /auth/create [post]
+// @Router      /docs/create [post]
 func (r *docsRoutes) create(c *gin.Context) {
 	const op = "docsRoutes.create"
 
@@ -81,7 +81,7 @@ func (r *docsRoutes) create(c *gin.Context) {
 // @Failure     404
 // @Failure     500
 // @Failure     503
-// @Router      /auth/delete [post]
+// @Router      /docs/delete [post]
 func (r *docsRoutes) delete(c *gin.Context) {
 	const op = "docsRoutes.delete"
 
@@ -119,7 +119,7 @@ func (r *docsRoutes) delete(c *gin.Context) {
 // @Failure     404
 // @Failure     500
 // @Failure     503
-// @Router      /auth/filtered [post]
+// @Router      /docs/filtered [post]
 func (r *docsRoutes) getFilterd(c *gin.Context) {
 	const op = "docsRoutes.getFilterd"
 
@@ -157,7 +157,7 @@ func (r *docsRoutes) getFilterd(c *gin.Context) {
 // @Failure     404
 // @Failure     500
 // @Failure     503
-// @Router      /auth/search [post]
+// @Router      /docs/search [post]
 func (r *docsRoutes) search(c *gin.Context) {
 	const op = "docsRoutes.search"
 
@@ -195,7 +195,7 @@ func (r *docsRoutes) search(c *gin.Context) {
 // @Failure     404
 // @Failure     500
 // @Failure     503
-// @Router      /auth/update [post]
+// @Router      /docs/update [post]
 func (r *docsRoutes) update(c *gin.Context) {
 	const op = "docsRoutes.update"
 

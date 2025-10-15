@@ -107,144 +107,6 @@
                 }
             }
         },
-        "/auth/create": {
-            "post": {
-                "description": "Create",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Docs"
-                ],
-                "summary": "Create",
-                "operationId": "Create",
-                "parameters": [
-                    {
-                        "description": "create",
-                        "name": "create",
-                        "in": "body",
-                        "schema": {
-                            "$ref": "#/definitions/entities.CreateRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/entities.SuccessResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request"
-                    },
-                    "404": {
-                        "description": "Not Found"
-                    },
-                    "500": {
-                        "description": "Internal Server Error"
-                    },
-                    "503": {
-                        "description": "Service Unavailable"
-                    }
-                }
-            }
-        },
-        "/auth/delete": {
-            "post": {
-                "description": "Delete",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Docs"
-                ],
-                "summary": "Delete",
-                "operationId": "Delte",
-                "parameters": [
-                    {
-                        "description": "delete",
-                        "name": "delete",
-                        "in": "body",
-                        "schema": {
-                            "$ref": "#/definitions/entities.DeleteRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/entities.SuccessResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request"
-                    },
-                    "404": {
-                        "description": "Not Found"
-                    },
-                    "500": {
-                        "description": "Internal Server Error"
-                    },
-                    "503": {
-                        "description": "Service Unavailable"
-                    }
-                }
-            }
-        },
-        "/auth/filtered": {
-            "post": {
-                "description": "Get filtererd",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Docs"
-                ],
-                "summary": "Get filtererd",
-                "operationId": "Get filtererd",
-                "parameters": [
-                    {
-                        "description": "get filtered",
-                        "name": "delete",
-                        "in": "body",
-                        "schema": {
-                            "$ref": "#/definitions/entities.GetFilteredRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/entities.GetResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request"
-                    },
-                    "404": {
-                        "description": "Not Found"
-                    },
-                    "500": {
-                        "description": "Internal Server Error"
-                    },
-                    "503": {
-                        "description": "Service Unavailable"
-                    }
-                }
-            }
-        },
         "/auth/login": {
             "post": {
                 "description": "Login",
@@ -435,52 +297,6 @@
                 }
             }
         },
-        "/auth/search": {
-            "post": {
-                "description": "Search",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Docs"
-                ],
-                "summary": "Search",
-                "operationId": "Search",
-                "parameters": [
-                    {
-                        "description": "search",
-                        "name": "delete",
-                        "in": "body",
-                        "schema": {
-                            "$ref": "#/definitions/entities.SearchRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/entities.GetResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request"
-                    },
-                    "404": {
-                        "description": "Not Found"
-                    },
-                    "500": {
-                        "description": "Internal Server Error"
-                    },
-                    "503": {
-                        "description": "Service Unavailable"
-                    }
-                }
-            }
-        },
         "/auth/send_password_link": {
             "post": {
                 "description": "Send password link",
@@ -530,7 +346,191 @@
                 }
             }
         },
-        "/auth/update": {
+        "/docs/create": {
+            "post": {
+                "description": "Create",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Docs"
+                ],
+                "summary": "Create",
+                "operationId": "Create",
+                "parameters": [
+                    {
+                        "description": "create",
+                        "name": "create",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/entities.CreateRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/entities.SuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "503": {
+                        "description": "Service Unavailable"
+                    }
+                }
+            }
+        },
+        "/docs/delete": {
+            "post": {
+                "description": "Delete",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Docs"
+                ],
+                "summary": "Delete",
+                "operationId": "Delte",
+                "parameters": [
+                    {
+                        "description": "delete",
+                        "name": "delete",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/entities.DeleteRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/entities.SuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "503": {
+                        "description": "Service Unavailable"
+                    }
+                }
+            }
+        },
+        "/docs/filtered": {
+            "post": {
+                "description": "Get filtererd",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Docs"
+                ],
+                "summary": "Get filtererd",
+                "operationId": "Get filtererd",
+                "parameters": [
+                    {
+                        "description": "get filtered",
+                        "name": "delete",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/entities.GetFilteredRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/entities.GetResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "503": {
+                        "description": "Service Unavailable"
+                    }
+                }
+            }
+        },
+        "/docs/search": {
+            "post": {
+                "description": "Search",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Docs"
+                ],
+                "summary": "Search",
+                "operationId": "Search",
+                "parameters": [
+                    {
+                        "description": "search",
+                        "name": "delete",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/entities.SearchRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/entities.GetResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "503": {
+                        "description": "Service Unavailable"
+                    }
+                }
+            }
+        },
+        "/docs/update": {
             "post": {
                 "description": "Update",
                 "consumes": [

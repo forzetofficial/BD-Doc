@@ -57,6 +57,11 @@ func NewRouter(handler *gin.Engine, c Clients, log *slog.Logger) {
 	g := handler.Group("/api/v1")
 	{
 		NewAuthRoutes(log, g, c.Auth)
-		NewDocsRoutes(log, g, c.Docs)
+	}
+
+	ga := handler.Group("/api/v1")
+	{
+		ga.Use(authMiddleware(log, c.Auth))
+		NewDocsRoutes(log, ga, c.Docs)
 	}
 }
