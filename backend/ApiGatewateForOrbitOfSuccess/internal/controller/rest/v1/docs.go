@@ -27,7 +27,7 @@ func NewDocsRoutes(log *slog.Logger, handler *gin.RouterGroup, s docsv1.DocsClie
 		g.POST("/delete", r.delete)
 		g.POST("/filtered", r.getFilterd)
 		g.POST("/search", r.search)
-		g.POST("/update", r.search)
+		g.POST("/update", r.update)
 	}
 }
 
@@ -38,7 +38,7 @@ func NewDocsRoutes(log *slog.Logger, handler *gin.RouterGroup, s docsv1.DocsClie
 // @Accept      json
 // @Param 		create body entities.CreateRequest false "create"
 // @Produce     json
-// @Success     200 {object} docsv1.SuccessResponse
+// @Success     200 {object} entities.SuccessResponse
 // @Failure     400
 // @Failure     404
 // @Failure     500
@@ -76,7 +76,7 @@ func (r *docsRoutes) create(c *gin.Context) {
 // @Accept      json
 // @Param 		delete body entities.DeleteRequest false "delete"
 // @Produce     json
-// @Success     200 {object} docsv1.SuccessResponse
+// @Success     200 {object} entities.SuccessResponse
 // @Failure     400
 // @Failure     404
 // @Failure     500
@@ -114,7 +114,7 @@ func (r *docsRoutes) delete(c *gin.Context) {
 // @Accept      json
 // @Param 		delete body entities.GetFilteredRequest false "get filtered"
 // @Produce     json
-// @Success     200 {object} docsv1.GetResponse
+// @Success     200 {object} entities.GetResponse
 // @Failure     400
 // @Failure     404
 // @Failure     500
@@ -152,7 +152,7 @@ func (r *docsRoutes) getFilterd(c *gin.Context) {
 // @Accept      json
 // @Param 		delete body entities.SearchRequest false "search"
 // @Produce     json
-// @Success     200 {object} docsv1.GetResponse
+// @Success     200 {object} entities.GetResponse
 // @Failure     400
 // @Failure     404
 // @Failure     500
@@ -190,7 +190,7 @@ func (r *docsRoutes) search(c *gin.Context) {
 // @Accept      json
 // @Param 		update body entities.UpdateRequest false "update"
 // @Produce     json
-// @Success     200 {object} docsv1.SuccessResponse
+// @Success     200 {object} entities.SuccessResponse
 // @Failure     400
 // @Failure     404
 // @Failure     500

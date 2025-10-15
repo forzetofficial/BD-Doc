@@ -103,3 +103,24 @@ func (r *UpdateRequest) ToGRPC() *docv1.UpdateRequest {
 		Discipline: r.Discipline,
 	}
 }
+
+type SuccessResponse struct {
+	Success bool `json:"success,omitempty"`
+}
+
+type Doc struct {
+	ID         int    `json:"id" binding:"required"`
+	Type       string `json:"type" binding:"required"`
+	Group      string `json:"group" binding:"required"`
+	FIO        string `json:"fio" binding:"required"`
+	Theme      string `json:"theme" binding:"required"`
+	Director   string `json:"director" binding:"required"`
+	Year       int    `json:"year" binding:"required"`
+	Order      string `json:"order" binding:"required"`
+	Reviewer   string `json:"reviewer" binding:"required"`
+	Discipline string `json:"discipline" binding:"required"`
+}
+
+type GetResponse struct {
+	Docs []*Doc `json:"docs,omitempty"`
+}
