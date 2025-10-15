@@ -111,3 +111,56 @@ func (r *DocRepository) GetFiltered(ctx context.Context, doc *entities.Doc) ([]*
 
 	return docs, nil
 }
+
+func (r *DocRepository) Delete(ctx context.Context, id int) error {
+	const op = "repositories.DocRepository.Delete"
+
+	_, err := r.Pool.Exec(ctx, `DELETE FROM docs WHERE id=$1`, id)
+
+	if err != nil {
+		return fmt.Errorf("%s: %w", op, err)
+	}
+
+	return nil
+}
+
+func (r *DocRepository) Search(ctx context.Context, search_line string) ([]*entities.Doc, error) {
+	const op = "repositories.DocRepository.Search"
+	arraySize := 20
+
+	rows, err := r.Pool.Query(
+		ctx,
+		`SELECT * FROM docs WHERE type LIKE $1 OR group_name LIKE $2 OR fio LIKE $3 OR theme LIKE $4 OR director LIKE $5 OR order_name LIKE $6 OR reviewer LIKE $7 OR discipline LIKE $8`,
+		("%" + strings.ToLower(search_line) + "%"), ("%" + strings.ToLower(search_line) + "%"), ("%" + strings.ToLower(search_line) + "%"), ("%" + strings.ToLower(search_line) + "%"),
+		("%" + strings.ToLower(search_line) + "%"), ("%" + strings.ToLower(search_line) + "%"), ("%" + strings.ToLower(search_line) + "%"), ("%" + strings.ToLower(search_line) + "%"))
+	if err != nil {
+		return nil, fmt.Errorf("%s: %w", op, err)
+	}
+
+	docs := make([]*entities.Doc, 0, arraySize)
+	for rows.Next() {
+		doc, err := getDoc(op, rows)
+		if err != nil {
+			return nil, fmt.Errorf("%s: %w", op, err)
+		}
+		docs = append(docs, doc)
+	}
+
+	return docs, nil
+}
+
+func (r *DocRepository) Update(ctx context.Context, doc *entities.Doc) (id int, err error) {
+	const op = "repositories.DocRepository.Update"
+
+	_, err = r.Pool.Exec(
+		ctx,
+		`UPDATE docs SET type=$1, group_name=$2, fio=$3, theme=$4, director=$5, year=$6, order_name=$7, reviewer=$8, discipline=$9 WHERE id=$10`,
+		strings.ToLower(doc.Type), strings.ToLower(doc.Group), strings.ToLower(doc.FIO), strings.ToLower(doc.Theme), strings.ToLower(doc.Director),
+		doc.Year, strings.ToLower(doc.Order), strings.ToLower(doc.Reviewer), strings.ToLower(doc.Discipline), doc.ID)
+
+	if err != nil {
+		return -1, fmt.Errorf("%s: %w", op, err)
+	}
+
+	return id, nil
+}

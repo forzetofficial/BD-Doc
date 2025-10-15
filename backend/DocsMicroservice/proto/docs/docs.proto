@@ -7,6 +7,7 @@ service Docs {
     rpc Delete(DeleteRequest) returns (SuccessResponse);
     rpc GetFiltered(GetFilteredRequest) returns (GetResponse);
     rpc Search(SearchRequest) returns (GetResponse);
+    rpc Update(UpdateRequest) returns (SuccessResponse);
 }
 
 message SuccessResponse {
@@ -60,4 +61,17 @@ message GetFilteredRequest {
 
 message SearchRequest {
     string search_line=1;
+}
+
+message UpdateRequest {
+    int64 id=1;
+    string type=2;
+    string group=3;
+    string fio=4;
+    string theme=5;
+    string director=6;
+    int32 year=7;
+    string order=8;
+    string reviewer=9;
+    string discipline=10;
 }

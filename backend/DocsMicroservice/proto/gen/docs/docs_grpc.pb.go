@@ -23,6 +23,7 @@ const (
 	Docs_Delete_FullMethodName      = "/Docs/Delete"
 	Docs_GetFiltered_FullMethodName = "/Docs/GetFiltered"
 	Docs_Search_FullMethodName      = "/Docs/Search"
+	Docs_Update_FullMethodName      = "/Docs/Update"
 )
 
 // DocsClient is the client API for Docs service.
@@ -33,6 +34,7 @@ type DocsClient interface {
 	Delete(ctx context.Context, in *DeleteRequest, opts ...grpc.CallOption) (*SuccessResponse, error)
 	GetFiltered(ctx context.Context, in *GetFilteredRequest, opts ...grpc.CallOption) (*GetResponse, error)
 	Search(ctx context.Context, in *SearchRequest, opts ...grpc.CallOption) (*GetResponse, error)
+	Update(ctx context.Context, in *UpdateRequest, opts ...grpc.CallOption) (*SuccessResponse, error)
 }
 
 type docsClient struct {
@@ -83,6 +85,16 @@ func (c *docsClient) Search(ctx context.Context, in *SearchRequest, opts ...grpc
 	return out, nil
 }
 
+func (c *docsClient) Update(ctx context.Context, in *UpdateRequest, opts ...grpc.CallOption) (*SuccessResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SuccessResponse)
+	err := c.cc.Invoke(ctx, Docs_Update_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // DocsServer is the server API for Docs service.
 // All implementations must embed UnimplementedDocsServer
 // for forward compatibility.
@@ -91,6 +103,7 @@ type DocsServer interface {
 	Delete(context.Context, *DeleteRequest) (*SuccessResponse, error)
 	GetFiltered(context.Context, *GetFilteredRequest) (*GetResponse, error)
 	Search(context.Context, *SearchRequest) (*GetResponse, error)
+	Update(context.Context, *UpdateRequest) (*SuccessResponse, error)
 	mustEmbedUnimplementedDocsServer()
 }
 
@@ -112,6 +125,9 @@ func (UnimplementedDocsServer) GetFiltered(context.Context, *GetFilteredRequest)
 }
 func (UnimplementedDocsServer) Search(context.Context, *SearchRequest) (*GetResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Search not implemented")
+}
+func (UnimplementedDocsServer) Update(context.Context, *UpdateRequest) (*SuccessResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
 }
 func (UnimplementedDocsServer) mustEmbedUnimplementedDocsServer() {}
 func (UnimplementedDocsServer) testEmbeddedByValue()              {}
@@ -206,6 +222,24 @@ func _Docs_Search_Handler(srv interface{}, ctx context.Context, dec func(interfa
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Docs_Update_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DocsServer).Update(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Docs_Update_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DocsServer).Update(ctx, req.(*UpdateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Docs_ServiceDesc is the grpc.ServiceDesc for Docs service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -228,6 +262,10 @@ var Docs_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Search",
 			Handler:    _Docs_Search_Handler,
+		},
+		{
+			MethodName: "Update",
+			Handler:    _Docs_Update_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
