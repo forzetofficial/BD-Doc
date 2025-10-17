@@ -8,6 +8,7 @@ import (
 	_ "github.com/Homyakadze14/ApiGatewateForOrbitOfSuccess/docs"
 
 	authv1 "github.com/Homyakadze14/ApiGatewateForOrbitOfSuccess/proto/gen/auth"
+	docsv1 "github.com/Homyakadze14/ApiGatewateForOrbitOfSuccess/proto/gen/docs"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
@@ -17,14 +18,15 @@ import (
 
 type Clients struct {
 	Auth authv1.AuthClient
+	Docs docsv1.DocsClient
 }
 
 // Swagger spec:
 // @title       API Gatewate
-// @description API Gatewate for orbit of success services
+// @description API Gatewate for service
 // @version     1.0
 // @schemes 	https
-// @host        cookhub.space
+// @host        158.160.159.90:5173
 // @BasePath    /api/v1
 // @securityDefinitions.apikey ApiKeyAuth
 // @in header
@@ -55,5 +57,11 @@ func NewRouter(handler *gin.Engine, c Clients, log *slog.Logger) {
 	g := handler.Group("/api/v1")
 	{
 		NewAuthRoutes(log, g, c.Auth)
+	}
+
+	ga := handler.Group("/api/v1")
+	{
+		ga.Use(authMiddleware(log, c.Auth))
+		NewDocsRoutes(log, ga, c.Docs)
 	}
 }

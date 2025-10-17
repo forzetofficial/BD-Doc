@@ -58,6 +58,116 @@ definitions:
     - link
     - password
     type: object
+  entities.CreateRequest:
+    properties:
+      director:
+        type: string
+      discipline:
+        type: string
+      fio:
+        type: string
+      group:
+        type: string
+      order:
+        type: string
+      reviewer:
+        type: string
+      theme:
+        type: string
+      type:
+        type: string
+      year:
+        type: integer
+    required:
+    - director
+    - discipline
+    - fio
+    - group
+    - order
+    - reviewer
+    - theme
+    - type
+    - year
+    type: object
+  entities.DeleteRequest:
+    properties:
+      id:
+        type: integer
+    required:
+    - id
+    type: object
+  entities.Doc:
+    properties:
+      director:
+        type: string
+      discipline:
+        type: string
+      fio:
+        type: string
+      group:
+        type: string
+      id:
+        type: integer
+      order:
+        type: string
+      reviewer:
+        type: string
+      theme:
+        type: string
+      type:
+        type: string
+      year:
+        type: integer
+    required:
+    - director
+    - discipline
+    - fio
+    - group
+    - id
+    - order
+    - reviewer
+    - theme
+    - type
+    - year
+    type: object
+  entities.GetFilteredRequest:
+    properties:
+      director:
+        type: string
+      discipline:
+        type: string
+      fio:
+        type: string
+      group:
+        type: string
+      order:
+        type: string
+      reviewer:
+        type: string
+      theme:
+        type: string
+      type:
+        type: string
+      year:
+        type: integer
+    required:
+    - director
+    - discipline
+    - fio
+    - group
+    - order
+    - reviewer
+    - theme
+    - type
+    - year
+    type: object
+  entities.GetResponse:
+    properties:
+      docs:
+        items:
+          $ref: '#/definitions/entities.Doc'
+        type: array
+    type: object
   entities.LoginRequest:
     properties:
       email:
@@ -102,6 +212,13 @@ definitions:
     - password
     - username
     type: object
+  entities.SearchRequest:
+    properties:
+      search_line:
+        type: string
+    required:
+    - search_line
+    type: object
   entities.SendPasswordLinkRequest:
     properties:
       email:
@@ -109,10 +226,49 @@ definitions:
     required:
     - email
     type: object
-host: cookhub.space
+  entities.SuccessResponse:
+    properties:
+      success:
+        type: boolean
+    type: object
+  entities.UpdateRequest:
+    properties:
+      director:
+        type: string
+      discipline:
+        type: string
+      fio:
+        type: string
+      group:
+        type: string
+      id:
+        type: integer
+      order:
+        type: string
+      reviewer:
+        type: string
+      theme:
+        type: string
+      type:
+        type: string
+      year:
+        type: integer
+    required:
+    - director
+    - discipline
+    - fio
+    - group
+    - id
+    - order
+    - reviewer
+    - theme
+    - type
+    - year
+    type: object
+host: 158.160.159.90:5173
 info:
   contact: {}
-  description: API Gatewate for orbit of success services
+  description: API Gatewate for service
   title: API Gatewate
   version: "1.0"
 paths:
@@ -334,6 +490,156 @@ paths:
       summary: Send password link
       tags:
       - Auth
+  /docs/create:
+    post:
+      consumes:
+      - application/json
+      description: Create
+      operationId: Create
+      parameters:
+      - description: create
+        in: body
+        name: create
+        schema:
+          $ref: '#/definitions/entities.CreateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entities.SuccessResponse'
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+        "503":
+          description: Service Unavailable
+      summary: Create
+      tags:
+      - Docs
+  /docs/delete:
+    post:
+      consumes:
+      - application/json
+      description: Delete
+      operationId: Delte
+      parameters:
+      - description: delete
+        in: body
+        name: delete
+        schema:
+          $ref: '#/definitions/entities.DeleteRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entities.SuccessResponse'
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+        "503":
+          description: Service Unavailable
+      summary: Delete
+      tags:
+      - Docs
+  /docs/filtered:
+    post:
+      consumes:
+      - application/json
+      description: Get filtererd
+      operationId: Get filtererd
+      parameters:
+      - description: get filtered
+        in: body
+        name: delete
+        schema:
+          $ref: '#/definitions/entities.GetFilteredRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entities.GetResponse'
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+        "503":
+          description: Service Unavailable
+      summary: Get filtererd
+      tags:
+      - Docs
+  /docs/search:
+    post:
+      consumes:
+      - application/json
+      description: Search
+      operationId: Search
+      parameters:
+      - description: search
+        in: body
+        name: delete
+        schema:
+          $ref: '#/definitions/entities.SearchRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entities.GetResponse'
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+        "503":
+          description: Service Unavailable
+      summary: Search
+      tags:
+      - Docs
+  /docs/update:
+    post:
+      consumes:
+      - application/json
+      description: Update
+      operationId: Update
+      parameters:
+      - description: update
+        in: body
+        name: update
+        schema:
+          $ref: '#/definitions/entities.UpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entities.SuccessResponse'
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+        "503":
+          description: Service Unavailable
+      summary: Update
+      tags:
+      - Docs
 schemes:
 - https
 securityDefinitions:

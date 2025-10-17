@@ -3,28 +3,26 @@ package config
 import (
 	"flag"
 	"os"
+	"time"
 
 	"github.com/ilyakaznacheev/cleanenv"
 )
 
 type Config struct {
-	Env            string            `yaml:"env" env-default:"local"`
-	HTTP           HTTPConfig        `yaml:"http"`
-	AuthServiceCfg AuthServiceConfig `yaml:"auth_service"`
-	DocsServiceCfg DocsServiceConfig `yaml:"docs_service"`
+	Env            string         `yaml:"env" env-default:"local"`
+	Database       DatabaseConfig `yaml:"database"`
+	GRPC           GRPCConfig     `yaml:"GRPC"`
 	MigrationsPath string
 }
 
-type HTTPConfig struct {
-	Port string `yaml:"port" env-required:"true"`
+type GRPCConfig struct {
+	Port    int           `yaml:"port" env-required:"true"`
+	Timeout time.Duration `yaml:"timeout" env-required:"true"`
 }
 
-type AuthServiceConfig struct {
-	Addr string `yaml:"address" env:"AUTH_ADDRESS" env-required:"true"`
-}
-
-type DocsServiceConfig struct {
-	Addr string `yaml:"address" env:"DOCS_ADDRESS" env-required:"true"`
+type DatabaseConfig struct {
+	URL     string `yaml:"url" env:"PG_URL" env-required:"true"`
+	PoolMax int    `yaml:"pool_max" env-required:"true"`
 }
 
 func MustLoad() *Config {

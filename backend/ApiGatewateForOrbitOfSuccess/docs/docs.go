@@ -348,6 +348,236 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/docs/create": {
+            "post": {
+                "description": "Create",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Docs"
+                ],
+                "summary": "Create",
+                "operationId": "Create",
+                "parameters": [
+                    {
+                        "description": "create",
+                        "name": "create",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/entities.CreateRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/entities.SuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "503": {
+                        "description": "Service Unavailable"
+                    }
+                }
+            }
+        },
+        "/docs/delete": {
+            "post": {
+                "description": "Delete",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Docs"
+                ],
+                "summary": "Delete",
+                "operationId": "Delte",
+                "parameters": [
+                    {
+                        "description": "delete",
+                        "name": "delete",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/entities.DeleteRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/entities.SuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "503": {
+                        "description": "Service Unavailable"
+                    }
+                }
+            }
+        },
+        "/docs/filtered": {
+            "post": {
+                "description": "Get filtererd",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Docs"
+                ],
+                "summary": "Get filtererd",
+                "operationId": "Get filtererd",
+                "parameters": [
+                    {
+                        "description": "get filtered",
+                        "name": "delete",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/entities.GetFilteredRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/entities.GetResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "503": {
+                        "description": "Service Unavailable"
+                    }
+                }
+            }
+        },
+        "/docs/search": {
+            "post": {
+                "description": "Search",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Docs"
+                ],
+                "summary": "Search",
+                "operationId": "Search",
+                "parameters": [
+                    {
+                        "description": "search",
+                        "name": "delete",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/entities.SearchRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/entities.GetResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "503": {
+                        "description": "Service Unavailable"
+                    }
+                }
+            }
+        },
+        "/docs/update": {
+            "post": {
+                "description": "Update",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Docs"
+                ],
+                "summary": "Update",
+                "operationId": "Update",
+                "parameters": [
+                    {
+                        "description": "update",
+                        "name": "update",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/entities.UpdateRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/entities.SuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "503": {
+                        "description": "Service Unavailable"
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -441,6 +671,161 @@ const docTemplate = `{
                 }
             }
         },
+        "entities.CreateRequest": {
+            "type": "object",
+            "required": [
+                "director",
+                "discipline",
+                "fio",
+                "group",
+                "order",
+                "reviewer",
+                "theme",
+                "type",
+                "year"
+            ],
+            "properties": {
+                "director": {
+                    "type": "string"
+                },
+                "discipline": {
+                    "type": "string"
+                },
+                "fio": {
+                    "type": "string"
+                },
+                "group": {
+                    "type": "string"
+                },
+                "order": {
+                    "type": "string"
+                },
+                "reviewer": {
+                    "type": "string"
+                },
+                "theme": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "year": {
+                    "type": "integer"
+                }
+            }
+        },
+        "entities.DeleteRequest": {
+            "type": "object",
+            "required": [
+                "id"
+            ],
+            "properties": {
+                "id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "entities.Doc": {
+            "type": "object",
+            "required": [
+                "director",
+                "discipline",
+                "fio",
+                "group",
+                "id",
+                "order",
+                "reviewer",
+                "theme",
+                "type",
+                "year"
+            ],
+            "properties": {
+                "director": {
+                    "type": "string"
+                },
+                "discipline": {
+                    "type": "string"
+                },
+                "fio": {
+                    "type": "string"
+                },
+                "group": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "order": {
+                    "type": "string"
+                },
+                "reviewer": {
+                    "type": "string"
+                },
+                "theme": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "year": {
+                    "type": "integer"
+                }
+            }
+        },
+        "entities.GetFilteredRequest": {
+            "type": "object",
+            "required": [
+                "director",
+                "discipline",
+                "fio",
+                "group",
+                "order",
+                "reviewer",
+                "theme",
+                "type",
+                "year"
+            ],
+            "properties": {
+                "director": {
+                    "type": "string"
+                },
+                "discipline": {
+                    "type": "string"
+                },
+                "fio": {
+                    "type": "string"
+                },
+                "group": {
+                    "type": "string"
+                },
+                "order": {
+                    "type": "string"
+                },
+                "reviewer": {
+                    "type": "string"
+                },
+                "theme": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "year": {
+                    "type": "integer"
+                }
+            }
+        },
+        "entities.GetResponse": {
+            "type": "object",
+            "properties": {
+                "docs": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/entities.Doc"
+                    }
+                }
+            }
+        },
         "entities.LoginRequest": {
             "type": "object",
             "required": [
@@ -505,6 +890,17 @@ const docTemplate = `{
                 }
             }
         },
+        "entities.SearchRequest": {
+            "type": "object",
+            "required": [
+                "search_line"
+            ],
+            "properties": {
+                "search_line": {
+                    "type": "string"
+                }
+            }
+        },
         "entities.SendPasswordLinkRequest": {
             "type": "object",
             "required": [
@@ -513,6 +909,61 @@ const docTemplate = `{
             "properties": {
                 "email": {
                     "type": "string"
+                }
+            }
+        },
+        "entities.SuccessResponse": {
+            "type": "object",
+            "properties": {
+                "success": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "entities.UpdateRequest": {
+            "type": "object",
+            "required": [
+                "director",
+                "discipline",
+                "fio",
+                "group",
+                "id",
+                "order",
+                "reviewer",
+                "theme",
+                "type",
+                "year"
+            ],
+            "properties": {
+                "director": {
+                    "type": "string"
+                },
+                "discipline": {
+                    "type": "string"
+                },
+                "fio": {
+                    "type": "string"
+                },
+                "group": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "order": {
+                    "type": "string"
+                },
+                "reviewer": {
+                    "type": "string"
+                },
+                "theme": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "year": {
+                    "type": "integer"
                 }
             }
         }
@@ -529,11 +980,11 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "cookhub.space",
+	Host:             "158.160.159.90:5173",
 	BasePath:         "/api/v1",
 	Schemes:          []string{"https"},
 	Title:            "API Gatewate",
-	Description:      "API Gatewate for orbit of success services",
+	Description:      "API Gatewate for service",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",
