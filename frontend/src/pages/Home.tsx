@@ -89,7 +89,7 @@ export default function Home() {
     event.preventDefault();
     setDocsLoading(true);
     setDocsError(null);
-    const accessToken = Cookies.get("access_token_token");
+    const accessToken = Cookies.get("access_token");
     try {
       const resp = await fetch("http://158.160.159.90:8080/api/v1/docs/search", {
         method: "POST",
