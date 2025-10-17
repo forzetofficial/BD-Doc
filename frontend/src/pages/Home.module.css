@@ -365,4 +365,26 @@
   transform: translateY(1px);
 }
 
+.home-add {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: linear-gradient(135deg, var(--violet), var(--green));
+  color: #0b1220;
+  font-weight: 700;
+  cursor: pointer;
+  margin-bottom: 0;
+  margin-top: 12px;
+  transition: filter 120ms;
+}
+.home-add:hover {
+  filter: brightness(1.08);
+}
+
+.criteria-actions .home-add {
+  grid-column: 1 / -1;
+  width: 100%;
+}
+
 

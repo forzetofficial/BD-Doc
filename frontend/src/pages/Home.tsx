@@ -21,6 +21,21 @@ export default function Home() {
     reviewer: "",
     discipline: "",
   });
+  const [isAddModalOpen, setAddModalOpen] = useState(false);
+  const [addForm, setAddForm] = useState({
+    director: "",
+    discipline: "",
+    fio: "",
+    group: "",
+    order: "",
+    reviewer: "",
+    theme: "",
+    type: "diploma",
+    year: 0,
+  });
+  const [docs, setDocs] = useState([]);
+  const [docsLoading, setDocsLoading] = useState(false);
+  const [docsError, setDocsError] = useState<string | null>(null);
 
   useEffect(() => {
     const hasJustLoggedIn = sessionStorage.getItem('justLoggedIn') === 'true';
@@ -37,7 +52,30 @@ export default function Home() {
   };
 
   function handleLogout() {
-    navigate("/login", { replace: true });
+    const refreshToken = Cookies.get("refresh_token");
+    if (!refreshToken) {
+      navigate("/login", { replace: true });
+      return;
+    }
+    fetch("http://158.160.159.90:8080/api/v1/auth/logout", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ refresh_token: refreshToken }),
+    })
+      .then((resp) => {
+        if (resp.ok) {
+          Cookies.remove("access_token");
+          Cookies.remove("refresh_token");
+          navigate("/login", { replace: true });
+        } else {
+          navigate("/login", { replace: true });
+        }
+      })
+      .catch(() => {
+        navigate("/login", { replace: true });
+      });
   }
 
   function handleCriteriaChange(
@@ -47,10 +85,33 @@ export default function Home() {
     setCriteria((prev) => ({ ...prev, [name]: value }));
   }
 
-  function submitGlobalSearch(event: React.FormEvent) {
+  async function submitGlobalSearch(event: React.FormEvent) {
     event.preventDefault();
-    // TODO: wire to backend search
-    // For now, no-op
+    setDocsLoading(true);
+    setDocsError(null);
+    const refreshToken = Cookies.get("refresh_token");
+    try {
+      const resp = await fetch("http://158.160.159.90:8080/api/v1/docs/search", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${refreshToken}`,
+        },
+        body: JSON.stringify({ search_line: globalQuery }),
+      });
+      if (resp.ok) {
+        const res = await resp.json();
+        setDocs(Array.isArray(res.docs) ? res.docs : []);
+      } else {
+        setDocsError("Ошибка поиска");
+        setDocs([]);
+      }
+    } catch (e) {
+      setDocsError("Ошибка соединения");
+      setDocs([]);
+    } finally {
+      setDocsLoading(false);
+    }
   }
 
   function submitCriteriaSearch(event: React.FormEvent) {
@@ -69,6 +130,56 @@ export default function Home() {
       reviewer: "",
       discipline: "",
     });
+  }
+
+  function openAddModal() {
+    setAddModalOpen(true);
+  }
+  function closeAddModal() {
+    setAddModalOpen(false);
+  }
+  function handleAddFormChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
+    const { name, value, type } = e.target;
+    setAddForm(prev => ({
+      ...prev,
+      [name]: type === 'number' ? Number(value) : value,
+    }));
+  }
+  function handleAddTypeChange(e: React.ChangeEvent<HTMLSelectElement>) {
+    setAddForm(prev => ({ ...prev, type: e.target.value }));
+  }
+  async function handleAddSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    const refreshToken = Cookies.get("refresh_token");
+    try {
+      const resp = await fetch("http://158.160.159.90:8080/api/v1/docs/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${refreshToken}`,
+        },
+        body: JSON.stringify(addForm),
+      });
+      if (resp.ok) {
+        closeAddModal();
+        setAddForm({
+          director: "",
+          discipline: "",
+          fio: "",
+          group: "",
+          order: "",
+          reviewer: "",
+          theme: "",
+          type: "diploma",
+          year: 0,
+        });
+      } else {
+        const err = await resp.json().catch(() => ({message:"Ошибка"}));
+        alert(`Ошибка: ${err.message || "Ошибка сохранения"}`);
+      }
+    } catch (error) {
+      alert("Ошибка соединения или сервера");
+    }
   }
 
   if (isLoading) {
@@ -100,7 +211,7 @@ export default function Home() {
           <div className={styles["home-username"]}>{username}</div>
         </div>
 
-        <button className={styles["home-settings-btn"]} type="button">⚙ Настройки</button>
+        {/* Кнопка настроек УДАЛЕНА */}
 
         <div className={styles["home-section"]}>
           <div className={styles["home-section__title"]}>Тип поиска</div>
@@ -218,6 +329,7 @@ export default function Home() {
             <div className={styles["criteria-actions"]}>
               <button className={styles.submit} type="submit">Искать</button>
               <button className={styles.clear} type="button" onClick={clearCriteria}>Очистить</button>
+              <button className={styles["home-add"]} type="button" onClick={openAddModal}>Добавить</button>
             </div>
           </form>
         </div>
@@ -236,7 +348,51 @@ export default function Home() {
           />
           <button className={`${styles.submit} ${styles["home-search__button"]}`} type="submit">Поиск</button>
         </form>
+        {docsLoading && <div style={{marginTop:20, color:'#aaa'}}>Загрузка...</div>}
+        {docsError && <div style={{marginTop:20, color:'#e55'}}>{docsError}</div>}
+        {docs.length > 0 && (
+          <div style={{width:'100%', display:'grid', gap:18, marginTop:30, gridTemplateColumns:'repeat(auto-fit, minmax(340px,1fr))'}}>
+            {docs.map((doc:any) => (
+              <div key={doc.id || Math.random()} style={{padding:22, borderRadius:18, background:'rgba(255,255,255,0.04)',boxShadow:'0 2px 10px #0003', border:'1px solid var(--border, #333)', minWidth:300}}>
+                <div style={{fontWeight:'600', fontSize:18, marginBottom:9, color:'var(--violet,#869FF8)'}}>{doc.theme || '-'}</div>
+                <div style={{marginBottom:7, fontSize:15}}><b>ФИО:</b> {doc.fio || '-'}</div>
+                <div style={{marginBottom:7, fontSize:15}}><b>Руководитель:</b> {doc.director || '-'}</div>
+                <div style={{marginBottom:7, fontSize:15}}><b>Год:</b> {doc.year || '-'}</div>
+                <div style={{marginBottom:7, fontSize:15}}><b>Тип:</b> {doc.type === 'diploma' ? 'Диплом' : doc.type === 'coursework' ? 'Курсовая' : doc.type || '-'}</div>
+                <div style={{marginBottom:4, fontSize:13}}><b>Группа:</b> {doc.group || '-'}</div>
+                <div style={{marginBottom:4, fontSize:13}}><b>Рецензент:</b> {doc.reviewer || '-'}</div>
+                <div style={{marginBottom:4, fontSize:13}}><b>Приказ:</b> {doc.order || '-'}</div>
+                <div style={{marginBottom:4, fontSize:13}}><b>Дисциплина:</b> {doc.discipline || '-'}</div>
+              </div>
+            ))}
+          </div>
+        )}
       </main>
+
+      {/* Модальное окно добавления */}
+      {isAddModalOpen && (
+        <div style={{ position: "fixed", left: 0, top: 0, width: "100vw", height: "100vh", zIndex: 1000, background: "rgba(0,0,0,0.32)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <form style={{ background: "#18151e", padding: 28, borderRadius: 18, boxShadow: "0 2px 32px #0007", minWidth: 320, maxWidth: 400, width: "95vw", display: "grid", gap: 14 }} onSubmit={handleAddSubmit}>
+            <label style={{ marginBottom: 2, fontWeight: 600 }}>Тип *</label>
+            <select name="type" value={addForm.type} onChange={handleAddTypeChange} style={{ padding: 10, borderRadius: 8, marginBottom: 6 }} required>
+              <option value="diploma">Диплом</option>
+              <option value="coursework">Курсовая</option>
+            </select>
+            <input className={styles.input} name="group" placeholder="Группа" value={addForm.group} onChange={handleAddFormChange} />
+            <input className={styles.input} name="fio" placeholder="ФИО" value={addForm.fio} onChange={handleAddFormChange} />
+            <input className={styles.input} name="theme" placeholder="Тема" value={addForm.theme} onChange={handleAddFormChange} />
+            <input className={styles.input} name="director" placeholder="Руководитель" value={addForm.director} onChange={handleAddFormChange} />
+            <input className={styles.input} name="year" placeholder="Год" type="number" value={addForm.year || ''} onChange={handleAddFormChange} />
+            <input className={styles.input} name="order" placeholder="Приказ" value={addForm.order} onChange={handleAddFormChange} />
+            <input className={styles.input} name="reviewer" placeholder="Рецензент" value={addForm.reviewer} onChange={handleAddFormChange} />
+            <input className={styles.input} name="discipline" placeholder="Дисциплина" value={addForm.discipline} onChange={handleAddFormChange} />
+            <div style={{ display: "flex", gap: 12, marginTop: 10 }}>
+              <button type="submit" className={styles.submit} style={{ flex: 1 }}>Отправить</button>
+              <button type="button" className={styles.clear} style={{ flex: 1 }} onClick={closeAddModal}>Закрыть</button>
+            </div>
+          </form>
+        </div>
+      )}
     </div>
   );
 }
