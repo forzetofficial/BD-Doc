@@ -40,6 +40,17 @@ export default function Home() {
   const docsEndRef = useRef<HTMLDivElement>(null);
   const [isEditModalOpen, setEditModalOpen] = useState(false);
   const [editingDoc, setEditingDoc] = useState<any>(null);
+  const [editForm, setEditForm] = useState({
+    director: "",
+    discipline: "",
+    fio: "",
+    group: "",
+    order: "",
+    reviewer: "",
+    theme: "",
+    type: "diploma",
+    year: 0,
+  });
 
   useEffect(() => {
     if (docsEndRef.current && docs.length > 0) {
@@ -227,12 +238,82 @@ export default function Home() {
 
   function openEditModal(doc: any) {
     setEditingDoc(doc);
+    setEditForm({
+      director: doc.director || "",
+      discipline: doc.discipline || "",
+      fio: doc.fio || "",
+      group: doc.group || "",
+      order: doc.order || "",
+      reviewer: doc.reviewer || "",
+      theme: doc.theme || "",
+      type: doc.type || "diploma",
+      year: doc.year || 0,
+    });
     setEditModalOpen(true);
   }
 
   function closeEditModal() {
     setEditModalOpen(false);
     setEditingDoc(null);
+    setEditForm({
+      director: "",
+      discipline: "",
+      fio: "",
+      group: "",
+      order: "",
+      reviewer: "",
+      theme: "",
+      type: "diploma",
+      year: 0,
+    });
+  }
+
+  function handleEditFormChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
+    const { name, value, type } = e.target;
+    setEditForm(prev => ({
+      ...prev,
+      [name]: type === 'number' ? Number(value) : value,
+    }));
+  }
+
+  function handleEditTypeChange(e: React.ChangeEvent<HTMLSelectElement>) {
+    setEditForm(prev => ({ ...prev, type: e.target.value }));
+  }
+
+  async function handleEditSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!editingDoc) return;
+    
+    const accessToken = Cookies.get("access_token");
+    try {
+      const resp = await fetch("http://158.160.159.90:8080/api/v1/docs/update", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({
+          ...editForm,
+          id: editingDoc.id,
+          type: editForm.type.toLowerCase()
+        }),
+      });
+      if (resp.ok) {
+        // Обновляем документ в списке
+        setDocs(prev => prev.map((doc: any) => 
+          doc.id === editingDoc.id 
+            ? { ...doc, ...editForm, type: editForm.type.toLowerCase() }
+            : doc
+        ));
+        closeEditModal();
+        alert("Документ успешно обновлен");
+      } else {
+        const err = await resp.json().catch(() => ({message:"Ошибка"}));
+        alert(`Ошибка обновления: ${err.message || "Ошибка сохранения"}`);
+      }
+    } catch (error) {
+      alert("Ошибка соединения при обновлении");
+    }
   }
   async function handleAddSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -441,18 +522,18 @@ export default function Home() {
         {docsLoading && <div style={{marginTop:20, color:'#aaa'}}>Загрузка...</div>}
         {docsError && <div style={{marginTop:20, color:'#e55'}}>{docsError}</div>}
         {docs.length > 0 && (
-          <div style={{width:'100%', display:'grid', gap:18, marginTop:30, gridTemplateColumns:'repeat(auto-fit, minmax(340px,1fr))'}}>
+          <div style={{width:'100%', display:'grid', gap:18, marginTop:30, gridTemplateColumns:'repeat(auto-fit, minmax(340px,1fr))', maxHeight:'70vh', overflowY:'auto', paddingRight:'8px'}}>
             {docs.map((doc:any) => (
-              <div key={doc.id || Math.random()} style={{padding:22, borderRadius:18, background:'rgba(255,255,255,0.04)',boxShadow:'0 2px 10px #0003', border:'1px solid var(--border, #333)', minWidth:300}}>
-                <div style={{fontWeight:'600', fontSize:18, marginBottom:9, color:'var(--violet,#869FF8)'}}>{doc.theme || '-'}</div>
-                <div style={{marginBottom:7, fontSize:15}}><b>ФИО:</b> {doc.fio || '-'}</div>
-                <div style={{marginBottom:7, fontSize:15}}><b>Руководитель:</b> {doc.director || '-'}</div>
-                <div style={{marginBottom:7, fontSize:15}}><b>Год:</b> {doc.year || '-'}</div>
-                <div style={{marginBottom:7, fontSize:15}}><b>Тип:</b> {doc.type === 'diploma' ? 'Диплом' : doc.type === 'coursework' ? 'Курсовая' : doc.type || '-'}</div>
-                <div style={{marginBottom:4, fontSize:13}}><b>Группа:</b> {doc.group || '-'}</div>
-                <div style={{marginBottom:4, fontSize:13}}><b>Рецензент:</b> {doc.reviewer || '-'}</div>
-                <div style={{marginBottom:4, fontSize:13}}><b>Приказ:</b> {doc.order || '-'}</div>
-                <div style={{marginBottom:4, fontSize:13}}><b>Дисциплина:</b> {doc.discipline || '-'}</div>
+              <div key={doc.id || Math.random()} style={{padding:22, borderRadius:18, background:'rgba(255,255,255,0.04)',boxShadow:'0 2px 10px #0003', border:'1px solid var(--border, #333)', minWidth:300, maxWidth:'100%', wordWrap:'break-word', overflow:'hidden'}}>
+                <div style={{fontWeight:'600', fontSize:18, marginBottom:9, color:'var(--violet,#869FF8)', wordBreak:'break-word', overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap'}} title={doc.theme || '-'}>{doc.theme || '-'}</div>
+                <div style={{marginBottom:7, fontSize:15, wordBreak:'break-word'}}><b>ФИО:</b> {doc.fio || '-'}</div>
+                <div style={{marginBottom:7, fontSize:15, wordBreak:'break-word'}}><b>Руководитель:</b> {doc.director || '-'}</div>
+                <div style={{marginBottom:7, fontSize:15, wordBreak:'break-word'}}><b>Год:</b> {doc.year || '-'}</div>
+                <div style={{marginBottom:7, fontSize:15, wordBreak:'break-word'}}><b>Тип:</b> {doc.type === 'diploma' ? 'Диплом' : doc.type === 'coursework' ? 'Курсовая' : doc.type || '-'}</div>
+                <div style={{marginBottom:4, fontSize:13, wordBreak:'break-word'}}><b>Группа:</b> {doc.group || '-'}</div>
+                <div style={{marginBottom:4, fontSize:13, wordBreak:'break-word'}}><b>Рецензент:</b> {doc.reviewer || '-'}</div>
+                <div style={{marginBottom:4, fontSize:13, wordBreak:'break-word'}}><b>Приказ:</b> {doc.order || '-'}</div>
+                <div style={{marginBottom:4, fontSize:13, wordBreak:'break-word'}}><b>Дисциплина:</b> {doc.discipline || '-'}</div>
                 <div style={{display: 'flex', gap: 8, marginTop: 12}}>
                   <button 
                     type="button" 
@@ -493,6 +574,32 @@ export default function Home() {
           </div>
         )}
       </main>
+
+      {/* Модальное окно редактирования */}
+      {isEditModalOpen && (
+        <div style={{ position: "fixed", left: 0, top: 0, width: "100vw", height: "100vh", zIndex: 1000, background: "rgba(0,0,0,0.32)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <form style={{ background: "#18151e", padding: 28, borderRadius: 18, boxShadow: "0 2px 32px #0007", minWidth: 320, maxWidth: 400, width: "95vw", display: "grid", gap: 14 }} onSubmit={handleEditSubmit}>
+            <label style={{ marginBottom: 2, fontWeight: 600 }}>Тип *</label>
+            <select name="type" value={editForm.type} onChange={handleEditTypeChange} style={{ padding: 10, borderRadius: 8, marginBottom: 6 }} required>
+              <option value="diploma">Диплом</option>
+              <option value="coursework">Курсовая</option>
+            </select>
+
+            <input className={styles.input} name="theme" placeholder="Тема" value={editForm.theme} onChange={handleEditFormChange} />
+            <input className={styles.input} name="fio" placeholder="ФИО" value={editForm.fio} onChange={handleEditFormChange} />
+            <input className={styles.input} name="director" placeholder="Руководитель" value={editForm.director} onChange={handleEditFormChange} />
+            <input className={styles.input} name="year" placeholder="Год" type="number" value={editForm.year || ''} onChange={handleEditFormChange} />
+            <input className={styles.input} name="group" placeholder="Группа" value={editForm.group} onChange={handleEditFormChange} />
+            <input className={styles.input} name="order" placeholder="Приказ" value={editForm.order} onChange={handleEditFormChange} />
+            <input className={styles.input} name="reviewer" placeholder="Рецензент" value={editForm.reviewer} onChange={handleEditFormChange} />
+            <input className={styles.input} name="discipline" placeholder="Дисциплина" value={editForm.discipline} onChange={handleEditFormChange} />
+            <div style={{ display: "flex", gap: 12, marginTop: 10 }}>
+              <button type="submit" className={styles.submit} style={{ flex: 1 }}>Обновить</button>
+              <button type="button" className={styles.clear} style={{ flex: 1 }} onClick={closeEditModal}>Закрыть</button>
+            </div>
+          </form>
+        </div>
+      )}
 
       {/* Модальное окно добавления */}
       {isAddModalOpen && (

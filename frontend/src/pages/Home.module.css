@@ -124,6 +124,9 @@
   justify-items: center;
   gap: 16px;
   padding-top: 37vh;
+  max-height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .home-toggle {
@@ -191,6 +194,9 @@
   .home-content {
     padding-top: 8vh;
     gap: 14px;
+    max-height: calc(100vh - 20px);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
   .home-page {
     height: auto;
@@ -206,6 +212,9 @@
 @media (max-width: 420px) {
   .home-content {
     padding-top: 8vh;
+    max-height: calc(100vh - 20px);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
   .home-page {
     overflow-y: auto;
