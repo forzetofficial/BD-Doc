@@ -522,7 +522,7 @@ export default function Home() {
         {docsLoading && <div style={{marginTop:20, color:'#aaa'}}>Загрузка...</div>}
         {docsError && <div style={{marginTop:20, color:'#e55'}}>{docsError}</div>}
         {docs.length > 0 && (
-          <div style={{width:'100%', display:'grid', gap:18, marginTop:30, gridTemplateColumns:'repeat(auto-fit, minmax(340px,1fr))', maxHeight:'70vh', overflowY:'auto', paddingRight:'8px', alignItems:'start'}}>
+          <div style={{width:'100%', display:'grid', gap:18, marginTop:30, gridTemplateColumns:'repeat(auto-fit, minmax(340px,1fr))', minHeight:'400px', paddingRight:'8px', alignItems:'start'}}>
             {docs.map((doc:any) => (
               <div key={doc.id || Math.random()} style={{padding:22, borderRadius:18, background:'rgba(255,255,255,0.04)',boxShadow:'0 2px 10px #0003', border:'1px solid var(--border, #333)', minWidth:300, maxWidth:'100%', wordWrap:'break-word', display:'flex', flexDirection:'column', height:'fit-content', minHeight:'280px'}}>
                 <div style={{flex: 1, display: 'flex', flexDirection: 'column'}}>

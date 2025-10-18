@@ -1,11 +1,12 @@
 .home-page {
   position: relative;
-  height: 100dvh;
+  min-height: 100dvh;
   display: grid;
   grid-template-columns: 320px 1fr;
   gap: 20px;
   padding: 20px;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .collapsed.home-page,
@@ -124,7 +125,7 @@
   justify-items: center;
   gap: 16px;
   padding-top: 20px;
-  max-height: 100vh;
+  min-height: calc(100vh - 40px);
   overflow-y: auto;
   overflow-x: hidden;
 }
@@ -191,6 +192,14 @@
 
 /* Phones: lift search area higher */
 @media (max-width: 600px) {
+  .home-page {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding: 10px;
+    height: auto;
+    min-height: 100dvh;
+    overflow-y: auto;
+  }
   .home-content {
     padding-top: 20px;
     gap: 14px;
@@ -198,26 +207,31 @@
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
   }
-  .home-page {
-    height: auto;
-    min-height: 100dvh;
-    overflow-y: auto; /* allow page scroll on phones */
-  }
   .home-sidebar {
-    max-height: calc(100dvh - 40px);
-    overflow-y: auto; /* scroll inside sidebar if needed */
-    -webkit-overflow-scrolling: touch; /* smooth scroll on iOS */
+    max-height: none;
+    overflow-y: visible;
+    margin-bottom: 20px;
   }
 }
 @media (max-width: 420px) {
+  .home-page {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding: 8px;
+    height: auto;
+    min-height: 100dvh;
+    overflow-y: auto;
+  }
   .home-content {
     padding-top: 20px;
     min-height: calc(100vh - 20px);
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
   }
-  .home-page {
-    overflow-y: auto;
+  .home-sidebar {
+    max-height: none;
+    overflow-y: visible;
+    margin-bottom: 15px;
   }
 }
 
