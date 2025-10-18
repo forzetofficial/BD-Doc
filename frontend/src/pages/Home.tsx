@@ -1,6 +1,6 @@
 import styles from "./Home.module.css";
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import LoadingScreen from "../components/LoadingScreen";
 import AppBackground from "../components/AppBackground";
 import Cookies from "js-cookie";
@@ -20,6 +20,7 @@ export default function Home() {
     order: "",
     reviewer: "",
     discipline: "",
+    type: "diploma", // добавлено поле type
   });
   const [isAddModalOpen, setAddModalOpen] = useState(false);
   const [addForm, setAddForm] = useState({
@@ -36,6 +37,15 @@ export default function Home() {
   const [docs, setDocs] = useState([]);
   const [docsLoading, setDocsLoading] = useState(false);
   const [docsError, setDocsError] = useState<string | null>(null);
+  const docsEndRef = useRef<HTMLDivElement>(null);
+  const [isEditModalOpen, setEditModalOpen] = useState(false);
+  const [editingDoc, setEditingDoc] = useState<any>(null);
+
+  useEffect(() => {
+    if (docsEndRef.current && docs.length > 0) {
+      docsEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [docs]);
 
   useEffect(() => {
     const hasJustLoggedIn = sessionStorage.getItem('justLoggedIn') === 'true';
@@ -78,9 +88,7 @@ export default function Home() {
       });
   }
 
-  function handleCriteriaChange(
-    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) {
+  function handleCriteriaChange(event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
     const { name, value } = event.target;
     setCriteria((prev) => ({ ...prev, [name]: value }));
   }
@@ -114,9 +122,43 @@ export default function Home() {
     }
   }
 
-  function submitCriteriaSearch(event: React.FormEvent) {
+  async function submitCriteriaSearch(event: React.FormEvent) {
     event.preventDefault();
-    // TODO: wire to backend criteria search
+    setDocsLoading(true);
+    setDocsError(null);
+    const accessToken = Cookies.get("access_token");
+    try {
+      const resp = await fetch("http://158.160.159.90:8080/api/v1/docs/filtered", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({
+          director: criteria.supervisor,
+          discipline: criteria.discipline,
+          fio: criteria.fio,
+          group: criteria.group,
+          order: criteria.order,
+          reviewer: criteria.reviewer,
+          theme: criteria.title,
+          type: (criteria.type || '').toLowerCase(),
+          year: Number(criteria.year) || 0
+        }),
+      });
+      if (resp.ok) {
+        const res = await resp.json();
+        setDocs(Array.isArray(res.docs) ? res.docs : []);
+      } else {
+        setDocsError("Ошибка поиска");
+        setDocs([]);
+      }
+    } catch (e) {
+      setDocsError("Ошибка соединения");
+      setDocs([]);
+    } finally {
+      setDocsLoading(false);
+    }
   }
 
   function clearCriteria() {
@@ -129,6 +171,7 @@ export default function Home() {
       order: "",
       reviewer: "",
       discipline: "",
+      type: "diploma",
     });
   }
 
@@ -148,6 +191,49 @@ export default function Home() {
   function handleAddTypeChange(e: React.ChangeEvent<HTMLSelectElement>) {
     setAddForm(prev => ({ ...prev, type: e.target.value }));
   }
+
+  async function handleDeleteDoc(docId: number) {
+    const accessToken = Cookies.get("access_token");
+    if (!accessToken) {
+      alert("Ошибка авторизации");
+      return;
+    }
+
+    if (!confirm("Вы уверены, что хотите удалить этот документ?")) {
+      return;
+    }
+
+    try {
+      const resp = await fetch("http://158.160.159.90:8080/api/v1/docs/delete", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({ id: docId }),
+      });
+
+      if (resp.ok) {
+        setDocs(prev => prev.filter((doc: any) => doc.id !== docId));
+        alert("Документ успешно удален");
+      } else {
+        const err = await resp.json().catch(() => ({message:"Ошибка"}));
+        alert(`Ошибка удаления: ${err.message || "Неизвестная ошибка"}`);
+      }
+    } catch (error) {
+      alert("Ошибка соединения при удалении");
+    }
+  }
+
+  function openEditModal(doc: any) {
+    setEditingDoc(doc);
+    setEditModalOpen(true);
+  }
+
+  function closeEditModal() {
+    setEditModalOpen(false);
+    setEditingDoc(null);
+  }
   async function handleAddSubmit(e: React.FormEvent) {
     e.preventDefault();
     const accessToken = Cookies.get("access_token");
@@ -158,7 +244,7 @@ export default function Home() {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${accessToken}`,
         },
-        body: JSON.stringify(addForm),
+        body: JSON.stringify({ ...addForm, type: addForm.type.toLowerCase() }),
       });
       if (resp.ok) {
         closeAddModal();
@@ -240,6 +326,10 @@ export default function Home() {
 
           <div className={styles["home-section__title"]}>Поиск по критериям</div>
           <form className={styles["criteria-form"]} onSubmit={submitCriteriaSearch}>
+            <select className={styles.input} name="type" value={criteria.type} onChange={handleCriteriaChange} style={{ marginBottom: 8 }}>
+              <option value="diploma">Диплом</option>
+              <option value="coursework">Курсовая</option>
+            </select>
             <input
               className={styles.input}
               name="group"
@@ -363,8 +453,43 @@ export default function Home() {
                 <div style={{marginBottom:4, fontSize:13}}><b>Рецензент:</b> {doc.reviewer || '-'}</div>
                 <div style={{marginBottom:4, fontSize:13}}><b>Приказ:</b> {doc.order || '-'}</div>
                 <div style={{marginBottom:4, fontSize:13}}><b>Дисциплина:</b> {doc.discipline || '-'}</div>
+                <div style={{display: 'flex', gap: 8, marginTop: 12}}>
+                  <button 
+                    type="button" 
+                    onClick={() => openEditModal(doc)}
+                    style={{
+                      flex: 1,
+                      padding: '8px 12px',
+                      borderRadius: 8,
+                      border: '1px solid var(--border, #333)',
+                      background: 'linear-gradient(135deg, var(--blue), var(--green))',
+                      color: '#0b1220',
+                      fontWeight: 600,
+                      cursor: 'pointer'
+                    }}
+                  >
+                    Обновить
+                  </button>
+                  <button 
+                    type="button" 
+                    onClick={() => handleDeleteDoc(doc.id)}
+                    style={{
+                      flex: 1,
+                      padding: '8px 12px',
+                      borderRadius: 8,
+                      border: '1px solid var(--border, #333)',
+                      background: 'linear-gradient(135deg, #ff6b6b, #ff8e8e)',
+                      color: '#0b1220',
+                      fontWeight: 600,
+                      cursor: 'pointer'
+                    }}
+                  >
+                    Удалить
+                  </button>
+                </div>
               </div>
             ))}
+            <div ref={docsEndRef} />
           </div>
         )}
       </main>
