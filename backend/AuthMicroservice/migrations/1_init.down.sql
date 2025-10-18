@@ -2,3 +2,4 @@ DROP TABLE IF EXISTS activation_link;
 DROP TABLE IF EXISTS password_link;
 DROP TABLE IF EXISTS token;
 DROP TABLE IF EXISTS account;
+DROP TABLE IF EXISTS docs;
