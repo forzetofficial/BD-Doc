@@ -5,15 +5,15 @@ import (
 )
 
 type CreateRequest struct {
-	Type       string `json:"type" binding:"required"`
-	Group      string `json:"group" binding:"required"`
-	FIO        string `json:"fio" binding:"required"`
-	Theme      string `json:"theme" binding:"required"`
-	Director   string `json:"director" binding:"required"`
-	Year       int    `json:"year" binding:"required"`
-	Order      string `json:"order" binding:"required"`
-	Reviewer   string `json:"reviewer" binding:"required"`
-	Discipline string `json:"discipline" binding:"required"`
+	Type       string `json:"type"`
+	Group      string `json:"group"`
+	FIO        string `json:"fio"`
+	Theme      string `json:"theme"`
+	Director   string `json:"director"`
+	Year       int    `json:"year"`
+	Order      string `json:"order"`
+	Reviewer   string `json:"reviewer"`
+	Discipline string `json:"discipline"`
 }
 
 func (r *CreateRequest) ToGRPC() *docv1.CreateRequest {
@@ -41,15 +41,15 @@ func (r *DeleteRequest) ToGRPC() *docv1.DeleteRequest {
 }
 
 type GetFilteredRequest struct {
-	Type       string `json:"type" binding:"required"`
-	Group      string `json:"group" binding:"required"`
-	FIO        string `json:"fio" binding:"required"`
-	Theme      string `json:"theme" binding:"required"`
-	Director   string `json:"director" binding:"required"`
-	Year       int    `json:"year" binding:"required"`
-	Order      string `json:"order" binding:"required"`
-	Reviewer   string `json:"reviewer" binding:"required"`
-	Discipline string `json:"discipline" binding:"required"`
+	Type       string `json:"type"`
+	Group      string `json:"group"`
+	FIO        string `json:"fio"`
+	Theme      string `json:"theme"`
+	Director   string `json:"director"`
+	Year       int    `json:"year"`
+	Order      string `json:"order"`
+	Reviewer   string `json:"reviewer"`
+	Discipline string `json:"discipline"`
 }
 
 func (r *GetFilteredRequest) ToGRPC() *docv1.GetFilteredRequest {
@@ -77,16 +77,16 @@ func (r *SearchRequest) ToGRPC() *docv1.SearchRequest {
 }
 
 type UpdateRequest struct {
-	ID         int    `json:"id" binding:"required"`
-	Type       string `json:"type" binding:"required"`
-	Group      string `json:"group" binding:"required"`
-	FIO        string `json:"fio" binding:"required"`
-	Theme      string `json:"theme" binding:"required"`
-	Director   string `json:"director" binding:"required"`
-	Year       int    `json:"year" binding:"required"`
-	Order      string `json:"order" binding:"required"`
-	Reviewer   string `json:"reviewer" binding:"required"`
-	Discipline string `json:"discipline" binding:"required"`
+	ID         int    `json:"id"`
+	Type       string `json:"type"`
+	Group      string `json:"group"`
+	FIO        string `json:"fio"`
+	Theme      string `json:"theme"`
+	Director   string `json:"director"`
+	Year       int    `json:"year"`
+	Order      string `json:"order"`
+	Reviewer   string `json:"reviewer"`
+	Discipline string `json:"discipline"`
 }
 
 func (r *UpdateRequest) ToGRPC() *docv1.UpdateRequest {
@@ -109,16 +109,16 @@ type SuccessResponse struct {
 }
 
 type Doc struct {
-	ID         int    `json:"id" binding:"required"`
-	Type       string `json:"type" binding:"required"`
-	Group      string `json:"group" binding:"required"`
-	FIO        string `json:"fio" binding:"required"`
-	Theme      string `json:"theme" binding:"required"`
-	Director   string `json:"director" binding:"required"`
-	Year       int    `json:"year" binding:"required"`
-	Order      string `json:"order" binding:"required"`
-	Reviewer   string `json:"reviewer" binding:"required"`
-	Discipline string `json:"discipline" binding:"required"`
+	ID         int    `json:"id"`
+	Type       string `json:"type"`
+	Group      string `json:"group"`
+	FIO        string `json:"fio"`
+	Theme      string `json:"theme"`
+	Director   string `json:"director"`
+	Year       int    `json:"year"`
+	Order      string `json:"order"`
+	Reviewer   string `json:"reviewer"`
+	Discipline string `json:"discipline"`
 }
 
 type GetResponse struct {
