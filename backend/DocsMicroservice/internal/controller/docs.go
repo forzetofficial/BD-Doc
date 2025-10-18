@@ -33,11 +33,6 @@ func (s *serverAPI) Create(
 	ctx context.Context,
 	in *docv1.CreateRequest,
 ) (*docv1.SuccessResponse, error) {
-	if in.Type == "" || in.Group == "" || in.Fio == "" || in.Theme == "" || in.Director == "" ||
-		in.Year < 1000 || in.Year > 9999 || in.Order == "" {
-		return nil, status.Error(codes.InvalidArgument, "wrong data in request")
-	}
-
 	data := &entities.Doc{
 		Type:       in.Type,
 		Group:      in.Group,
