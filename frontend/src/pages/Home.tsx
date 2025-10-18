@@ -525,16 +525,18 @@ export default function Home() {
           <div style={{width:'100%', display:'grid', gap:18, marginTop:30, gridTemplateColumns:'repeat(auto-fit, minmax(340px,1fr))', maxHeight:'70vh', overflowY:'auto', paddingRight:'8px', alignItems:'start'}}>
             {docs.map((doc:any) => (
               <div key={doc.id || Math.random()} style={{padding:22, borderRadius:18, background:'rgba(255,255,255,0.04)',boxShadow:'0 2px 10px #0003', border:'1px solid var(--border, #333)', minWidth:300, maxWidth:'100%', wordWrap:'break-word', display:'flex', flexDirection:'column', height:'fit-content', minHeight:'280px'}}>
-                <div style={{fontWeight:'600', fontSize:18, marginBottom:9, color:'var(--violet,#869FF8)', wordBreak:'break-word', overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap'}} title={doc.theme || '-'}>{doc.theme || '-'}</div>
-                <div style={{marginBottom:7, fontSize:15, wordBreak:'break-word'}}><b>ФИО:</b> {doc.fio || '-'}</div>
-                <div style={{marginBottom:7, fontSize:15, wordBreak:'break-word'}}><b>Руководитель:</b> {doc.director || '-'}</div>
-                <div style={{marginBottom:7, fontSize:15, wordBreak:'break-word'}}><b>Год:</b> {doc.year || '-'}</div>
-                <div style={{marginBottom:7, fontSize:15, wordBreak:'break-word'}}><b>Тип:</b> {doc.type === 'diploma' ? 'Диплом' : doc.type === 'coursework' ? 'Курсовая' : doc.type || '-'}</div>
-                <div style={{marginBottom:4, fontSize:13, wordBreak:'break-word'}}><b>Группа:</b> {doc.group || '-'}</div>
-                <div style={{marginBottom:4, fontSize:13, wordBreak:'break-word'}}><b>Рецензент:</b> {doc.reviewer || '-'}</div>
-                <div style={{marginBottom:4, fontSize:13, wordBreak:'break-word'}}><b>Приказ:</b> {doc.order || '-'}</div>
-                <div style={{marginBottom:4, fontSize:13, wordBreak:'break-word'}}><b>Дисциплина:</b> {doc.discipline || '-'}</div>
-                <div style={{display: 'flex', gap: 8, marginTop: 'auto', paddingTop: 12}}>
+                <div style={{flex: 1, display: 'flex', flexDirection: 'column'}}>
+                  <div style={{fontWeight:'600', fontSize:18, marginBottom:9, color:'var(--violet,#869FF8)', wordBreak:'break-word', overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap'}} title={doc.theme || '-'}>{doc.theme || '-'}</div>
+                  <div style={{marginBottom:7, fontSize:15, wordBreak:'break-word'}}><b>ФИО:</b> {doc.fio || '-'}</div>
+                  <div style={{marginBottom:7, fontSize:15, wordBreak:'break-word'}}><b>Руководитель:</b> {doc.director || '-'}</div>
+                  <div style={{marginBottom:7, fontSize:15, wordBreak:'break-word'}}><b>Год:</b> {doc.year || '-'}</div>
+                  <div style={{marginBottom:7, fontSize:15, wordBreak:'break-word'}}><b>Тип:</b> {doc.type === 'diploma' ? 'Диплом' : doc.type === 'coursework' ? 'Курсовая' : doc.type || '-'}</div>
+                  <div style={{marginBottom:4, fontSize:13, wordBreak:'break-word'}}><b>Группа:</b> {doc.group || '-'}</div>
+                  <div style={{marginBottom:4, fontSize:13, wordBreak:'break-word'}}><b>Рецензент:</b> {doc.reviewer || '-'}</div>
+                  <div style={{marginBottom:4, fontSize:13, wordBreak:'break-word'}}><b>Приказ:</b> {doc.order || '-'}</div>
+                  <div style={{marginBottom:4, fontSize:13, wordBreak:'break-word'}}><b>Дисциплина:</b> {doc.discipline || '-'}</div>
+                </div>
+                <div style={{display: 'flex', gap: 8, marginTop: 16, paddingTop: 12, borderTop: '1px solid rgba(255,255,255,0.1)'}}>
                   <button 
                     type="button" 
                     onClick={() => openEditModal(doc)}
