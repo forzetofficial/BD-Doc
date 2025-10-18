@@ -5,8 +5,7 @@
   grid-template-columns: 320px 1fr;
   gap: 20px;
   padding: 20px;
-  overflow-y: auto;
-  overflow-x: hidden;
+  overflow: hidden;
 }
 
 .collapsed.home-page,
@@ -125,7 +124,7 @@
   justify-items: center;
   gap: 16px;
   padding-top: 37vh;
-  min-height: calc(100vh - 40px);
+  max-height: 100vh;
   overflow-y: auto;
   overflow-x: hidden;
 }
@@ -195,7 +194,7 @@
   .home-content {
     padding-top: 8vh;
     gap: 14px;
-    min-height: calc(100vh - 20px);
+    max-height: calc(100vh - 20px);
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
   }
@@ -213,7 +212,7 @@
 @media (max-width: 420px) {
   .home-content {
     padding-top: 8vh;
-    min-height: calc(100vh - 20px);
+    max-height: calc(100vh - 20px);
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
   }
