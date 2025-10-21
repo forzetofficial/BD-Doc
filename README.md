@@ -5,11 +5,13 @@ Data Base for students
 2. Устанавливаем Docker 
 3. Изменяем конфиг в бэке, в каждой папке микросервиса (если нет папки config - создаем)
 
-!!!!!в конфиге должен быть файл prod.yaml (если нет - создаём и проверяем содержимое)!!!!!!!!
+**!!!!! <ins> в конфиге должен быть файл prod.yaml (если нет - создаём и проверяем содержимое) </ins> !!!!!!!!**
 
 ---
 
 для ApiGatewateForOrbitOfSuccess
+
+```YAML
 
 env: "prod"
 
@@ -31,9 +33,13 @@ s3:
   bucket_name: "2b22bd72-555c46b6-3494-47e1-aec6-b13be2d5f5f6"
   endpoint: "https://s3.timeweb.cloud"
 
+```
+
 ---
 
 для AuthMicroservice
+
+```YAML
 
 env: "local"
 
@@ -66,9 +72,13 @@ base_links:
 user_service:
   address: "localhost:5001"
 
+```
+
 ---
 
 для DocsMicroservice
+
+```YAML
 
 env: "local"
 
@@ -80,7 +90,11 @@ database:
   url: "postgres://postgres:postgres@localhost:5432/Lenya"
   pool_max: 2
 
+```
+
 ---
+
+```YAML
 
 для UserMicroserviceForOrbitOfSuccess
 
@@ -93,6 +107,8 @@ GRPC:
 database:
   url: "postgres://postgres:postgres@localhost:5433/authmicroservice"
   pool_max: 2
+
+```
 
 ---
 
