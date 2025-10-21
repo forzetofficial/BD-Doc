@@ -114,7 +114,7 @@ database:
 
 4. Переходим в корневую папку в BD-Doc, где есть файл docker-compose.yml
 5. Прописываем в командной строке:
-	Для запуска постоянно: docker-compose up --build -d
-	Для запуска с отладкой (log): docker-compose up --build (при выходе из консоли сервер отключается)
-	Для завершения сервисов: docker-compose down
-	Для завершения сервисов и удаления БД (Доки и Юзеры): docker-compose down -v
+*Для запуска постоянно: docker-compose up --build -d
+*Для запуска с отладкой (log): docker-compose up --build (при выходе из консоли сервер отключается)
+*Для завершения сервисов: docker-compose down
+*Для завершения сервисов и удаления БД (Доки и Юзеры): docker-compose down -v
