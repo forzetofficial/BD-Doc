@@ -19,7 +19,7 @@ function ActivateAccount() {
       setStatus("loading");
       try {
         const response = await axios.post(
-          "http://158.160.159.90:8080/api/v1/auth/activate_account",
+          "http://77.51.223.54:8080/api/v1/auth/activate_account",
           { link },
           { headers: { "Content-Type": "application/json" } }
         );

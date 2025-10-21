@@ -78,7 +78,7 @@ export default function Home() {
       navigate("/login", { replace: true });
       return;
     }
-    fetch("http://158.160.159.90:8080/api/v1/auth/logout", {
+    fetch("http://77.51.223.54:8080/api/v1/auth/logout", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -110,7 +110,7 @@ export default function Home() {
     setDocsError(null);
     const accessToken = Cookies.get("access_token");
     try {
-      const resp = await fetch("http://158.160.159.90:8080/api/v1/docs/search", {
+      const resp = await fetch("http://77.51.223.54:8080/api/v1/docs/search", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -139,7 +139,7 @@ export default function Home() {
     setDocsError(null);
     const accessToken = Cookies.get("access_token");
     try {
-      const resp = await fetch("http://158.160.159.90:8080/api/v1/docs/filtered", {
+      const resp = await fetch("http://77.51.223.54:8080/api/v1/docs/filtered", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -215,7 +215,7 @@ export default function Home() {
     }
 
     try {
-      const resp = await fetch("http://158.160.159.90:8080/api/v1/docs/delete", {
+      const resp = await fetch("http://77.51.223.54:8080/api/v1/docs/delete", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -286,7 +286,7 @@ export default function Home() {
     
     const accessToken = Cookies.get("access_token");
     try {
-      const resp = await fetch("http://158.160.159.90:8080/api/v1/docs/update", {
+      const resp = await fetch("http://77.51.223.54:8080/api/v1/docs/update", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -319,7 +319,7 @@ export default function Home() {
     e.preventDefault();
     const accessToken = Cookies.get("access_token");
     try {
-      const resp = await fetch("http://158.160.159.90:8080/api/v1/docs/create", {
+      const resp = await fetch("http://77.51.223.54:8080/api/v1/docs/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
