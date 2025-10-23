@@ -26,7 +26,7 @@ type Clients struct {
 // @description API Gatewate for service
 // @version     1.0
 // @schemes 	https
-// @host        158.160.159.90:5173
+// @host        77.51.223.54:5173
 // @BasePath    /api/v1
 // @securityDefinitions.apikey ApiKeyAuth
 // @in header
@@ -38,7 +38,7 @@ func NewRouter(handler *gin.Engine, c Clients, log *slog.Logger) {
 
 	// Set cors
 	corsConf := cors.DefaultConfig()
-	corsConf.AllowOrigins = []string{"http://localhost:5173", "http://158.160.159.90:5173"}
+	corsConf.AllowOrigins = []string{"http://localhost:5173", "http://77.51.223.54:5173"}
 	corsConf.AllowHeaders = []string{"Content-Type", "Content-Length", "Accept-Encoding", "X-CSRF-Token", "Authorization", "accept", "origin", "Cache-Control", "X-Requested-With"}
 	corsConf.AllowCredentials = true
 	handler.Use(cors.New(corsConf))
